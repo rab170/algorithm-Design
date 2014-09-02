@@ -1,0 +1,237 @@
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Greedy Algorithms}
+\newcommand{\hmwkProblems}{6 and 7}
+\newcommand{\hmwkDueDate}{September 3, 2014}
+\newcommand{\ClassName}{Algorithm Design}
+\newcommand{\ClassNumber}{CS 1510}
+\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
+
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lhead{\ClassNumber\ - \ClassName}
+\chead{\hmwkTitle}
+\rhead{Problems \hmwkProblems}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 4}}
+\leavevmode
+\\ \\
+\textbf{(a)}
+\\
+\textbf{Input:} Locations $x_1$, $x_2$, ..., $x_n$ of gas stations along a highway.
+\\ \\
+\textbf{Output:} Stoppage time at each station which minimizes the total time which you are stopped for gas.
+\\ \\
+\textbf{Theorem:} The given "next-station" algorithm (NS) is correct / optimal.
+\\ \\
+\textbf{Proof:} Assume to reach a contradiction that there exists an input on which NS produces an unacceptable output.
+\\ \\
+Let $S_i$ be the stoppage time at each station
+\\ \& NS(I)=\{$S_{\alpha(1)}$, $S_{\alpha(2)}$, ..., $S_{\alpha(n)}$\} be the output of NS on input I
+\\ \& OPT(I)=\{$S_{\beta(1)}$, $S_{\beta(2)}$, ..., $S_{\beta(n)}$\} be the optimal solution that agrees with NS(I) the most number of steps
+\\ \\ \\ \\ \\ \\
+Let $x_k$ be the first stop of the trip upon which NS(I) differs from OPT(I)
+\\ \\ By the definition of NS, filling up for any time less than $S_\alpha(k)$ would not get you to the next station and since $S_{\alpha(k)}$ $\neq$ $S_{\beta(k)}$, then we know that $S_{\beta(k)}$ $\textgreater$ $S_{\alpha(k)}$
+\\ \\ Let time t be defined as the difference between those stoppage times, t = $S_{\beta(k)}$ - $S_{\alpha(k)}$
+\\ \\ Therefore $S_{\beta(k)}$ = $S_{\alpha(k)}$ + t:
+\\ \\ \\ \\ \\ \\ \\ \\
+Let OPT'(I) = OPT(I) with time t shifted to the next stop: 
+\\
+\centerline{$S'_k$ = $S_k$ - t}
+\centerline{$S'_{k+1}$ = $S_{k+1} + t$}
+\\ \\ Clearly, we haven't changed the total stoppage time and we know that we can reach the next stop by the definition of NS. Furthermore we add the difference to the stop at $x_{k+1}$, so we will undoubtably be able to reach the station at $x_{k+2}$ -- and all future stations. 
+\\ \\ $\therefore$ We have reached a contradiction because OPT' agrees with NS for one additional step despite OPT being defined as agreeing with NS for the most number of steps.
+
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+\textbf{(b)}
+\\
+\textbf{Input:} Locations $x_1$, ..., $x_n$ of gas stations along a highway.
+\\ \\
+\textbf{Output:} Stoppage time at each station which minimizes the total time which you are stopped for gas.
+\\ \\
+\textbf{Theorem:} The given "fill-up" algorithm (FU) is not correct or optimal.
+\\ \\
+\textbf{Proof:}
+\\
+\\ Consider the input I = $\{x_1, x_2\}$ where $x_2 - x_1$ = $\frac{1}{2} \frac{C}{F}$ 
+\\ \\ Note that to reach $x_2$ from $x_1$ it would take $F(x_2 - x_1) = F(\frac{1}{2} \frac{C}{F}) = \frac{1}{2} C$ liters of gas
+\\ \\ At $x_1$ the tank is filled to capacity according to FU, taking $\frac{C}{r}$ minutes. But it is possible and correct to reach $x_2$ using only $\frac{1}{2}C$ liters, making the optimal time $\frac{1}{2} \frac{C}{r}$ minutes.
+\\ \\ $\therefore$ FU is not correct or optimal. 
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 5}}
+\leavevmode
+\\ \\
+\textbf{(a)} 
+\\
+\textbf{Input:} A set of n points on the real line A where $a_i$ $\in$ $\mathbb{R}$.
+\\ \\
+\textbf{Output:} Minimum cardinality collection S of unit intervals that cover every point in A.
+\\ \\
+\textbf{Theorem:} The given "most points" algorithm (MP) is incorrect.
+\\ \\
+\textbf{Proof:} 
+\\ \\
+Consider the input P = \{0.5, 1.0, 1.49, 1.51, 2.0, 2.5\}
+\\ \\ \\ \\ \\ \\ 
+\\ Clearly the interval $I_1$ = (1, 2) covers the most points in P, so MP adds $I_1$ to S.  Now MP has no choice but to add separate intervals $I_2$ = (0.5, 1.5) and $I_3$ = (1.5, 2.5) to cover the remaining two points (0.5 and 2.5, respectively). 
+\\ \\ \centerline{\textbf{Thus MP has arrived at S = $\{ I_1,  I_2, I_3\}$}}
+\\ \\ \\
+Now consider S = \{(0.5, 1.5), (1.5, 2.5)\}
+\\ \\ \\ \\ \\ \\ 
+Clearly OPT(P) = S, $| OPT(P) | < | MP(P) |$, and MP is not optimal for P.
+\\ \\ $\therefore$ MP is not correct.
+\\
+\pagebreak
+\\
+\textbf{(b)}
+\\
+\textbf{Input:} A set of n points on the real line A where $a_i$ $\in$ $\mathbb{R}$.
+\\ \\
+\textbf{Output:} Minimum cardinality collection S of unit intervals that cover every point in A.
+\\ \\
+\textbf{Theorem:} The given "left-most" algorithm (LM) is correct / optimal.
+\\ \\
+\textbf{Proof:} Assume to reach a contradiction that there exists an input on which LM produces an unacceptable output.
+\\ \\
+Let $I_i$ be unit-intervals 
+\\ \& LM(A) = \{$I_{\alpha(1)}$, ..., $I_{\alpha(n)}$\} be the output of LM on input I
+\\ \& OPT(A) = \{$I_{\beta(1)}$, ..., $I_{\beta(n)}$\} be the optimal solution that agrees with LM(I) for the most number of steps
+\\ \\ \\ \\ \\ \\
+Let $a_k$ be the first point where LM(I) differs from OPT(I)
+\\ \\ By the definition of LM, we know that the interval which covers $a_k$ is $I_{\alpha(k)}$ = $(a_k, a_k+1)$
+\\ \\ In order to define $I_{\beta(k)}$, we should make a few observations:
+\\ \\ $\bullet$ All points to the left of $a_k$ are covered by some interval in OPT (by the definition of LM) and $a_k$ is not covered
+\\ \\ $\bullet$ The interval $I_{\beta(k)}$ can not start to the right of $a_k$ (because $a_k$ would not be covered) and $I_{\alpha(k)}$ $\neq$ $I_{\beta(k)}$
+\\ \\ $\bullet$ Therefore, $I_{\beta(k)}$ must start to the \textbf{left} of $a_k$ in OPT
+\\ \\ So for some distance $\Delta$, the interval in OPT which covers point $a_k$ is $I_{\beta(k)}$ = $(a_k-\Delta, a_k+1-\Delta)$
+\\ \\ Let OPT' = OPT with $I_{\beta(k)}$ shifted to the right by $\Delta$:
+\\ \centerline{$I'_{\beta(k)}$ = $I_{\beta(k)}$ + ($\Delta$, $\Delta$) = $(a_k, a_k+1)$ = $I_{\alpha(k)}$}
+\\ \\ As stated earlier, every point $a_i$ where i $\textless$ k has been covered by some previous interval, therefore we can safely move the interval $I_{\beta(k)}$ to the right by a distance $\Delta$. This move may cause a potential overlap to the right, however this overlapping is inconsequential
+\\ \\ Further note that OPT' is still optimal because it does not create any additional intervals and covers all the points
+\\ \\ $\therefore$ We have reached a contradiction because OPT' agrees with LM for one additional step despite OPT being defined as agreeing with LM for the most number of steps.
+
+\end{homeworkProblem}
+
+\end{document}
