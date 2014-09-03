@@ -180,14 +180,14 @@ Let OPT'(I) = OPT(I) with time t shifted to the next stop:
 \pagebreak
 
 \begin{homeworkProblem}
-\centerline{\textbf{Problem 5}}
+\centerline{\textbf{Problem 7}}
 \leavevmode
 \\ \\
-\textbf{(a)} 
-\\
-\textbf{Input:} A set of n points on the real line A where $a_i$ $\in$ $\mathbb{R}$.
+\textbf{Algorithm:} If a page is not in fast memory and an eviction must occur, evict the page that does not occur again or whose next use will occur farthest in the future.
 \\ \\
-\textbf{Output:} Minimum cardinality collection S of unit intervals that cover every point in A.
+\textbf{Input:} A sequence I = \{$P_1, P_2, ..., P_n$\} of page requests
+\\ \\
+\textbf{Output:} Minimum cardinality of a sequence of evicted pages E
 \\ \\
 \textbf{Theorem:} The given "most points" algorithm (MP) is incorrect.
 \\ \\
@@ -202,35 +202,6 @@ Now consider S = \{(0.5, 1.5), (1.5, 2.5)\}
 \\ \\ \\ \\ \\ \\ 
 Clearly OPT(P) = S, $| OPT(P) | < | MP(P) |$, and MP is not optimal for P.
 \\ \\ $\therefore$ MP is not correct.
-\\
-\pagebreak
-\\
-\textbf{(b)}
-\\
-\textbf{Input:} A set of n points on the real line A where $a_i$ $\in$ $\mathbb{R}$.
-\\ \\
-\textbf{Output:} Minimum cardinality collection S of unit intervals that cover every point in A.
-\\ \\
-\textbf{Theorem:} The given "left-most" algorithm (LM) is correct / optimal.
-\\ \\
-\textbf{Proof:} Assume to reach a contradiction that there exists an input on which LM produces an unacceptable output.
-\\ \\
-Let $I_i$ be unit-intervals 
-\\ \& LM(A) = \{$I_{\alpha(1)}$, ..., $I_{\alpha(n)}$\} be the output of LM on input I
-\\ \& OPT(A) = \{$I_{\beta(1)}$, ..., $I_{\beta(n)}$\} be the optimal solution that agrees with LM(I) for the most number of steps
-\\ \\ \\ \\ \\ \\
-Let $a_k$ be the first point where LM(I) differs from OPT(I)
-\\ \\ By the definition of LM, we know that the interval which covers $a_k$ is $I_{\alpha(k)}$ = $(a_k, a_k+1)$
-\\ \\ In order to define $I_{\beta(k)}$, we should make a few observations:
-\\ \\ $\bullet$ All points to the left of $a_k$ are covered by some interval in OPT (by the definition of LM) and $a_k$ is not covered
-\\ \\ $\bullet$ The interval $I_{\beta(k)}$ can not start to the right of $a_k$ (because $a_k$ would not be covered) and $I_{\alpha(k)}$ $\neq$ $I_{\beta(k)}$
-\\ \\ $\bullet$ Therefore, $I_{\beta(k)}$ must start to the \textbf{left} of $a_k$ in OPT
-\\ \\ So for some distance $\Delta$, the interval in OPT which covers point $a_k$ is $I_{\beta(k)}$ = $(a_k-\Delta, a_k+1-\Delta)$
-\\ \\ Let OPT' = OPT with $I_{\beta(k)}$ shifted to the right by $\Delta$:
-\\ \centerline{$I'_{\beta(k)}$ = $I_{\beta(k)}$ + ($\Delta$, $\Delta$) = $(a_k, a_k+1)$ = $I_{\alpha(k)}$}
-\\ \\ As stated earlier, every point $a_i$ where i $\textless$ k has been covered by some previous interval, therefore we can safely move the interval $I_{\beta(k)}$ to the right by a distance $\Delta$. This move may cause a potential overlap to the right, however this overlapping is inconsequential
-\\ \\ Further note that OPT' is still optimal because it does not create any additional intervals and covers all the points
-\\ \\ $\therefore$ We have reached a contradiction because OPT' agrees with LM for one additional step despite OPT being defined as agreeing with LM for the most number of steps.
 
 \end{homeworkProblem}
 
