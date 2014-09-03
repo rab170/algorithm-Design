@@ -221,39 +221,49 @@ Let OPT'(I) = OPT(I) with time t shifted to the next stop:
 \\ \\
 \textbf{Output:} Minimum cardinality collection S of unit intervals that cover every point in A.
 \\ \\
-\textbf{Theorem:} The "farthest in the future" algorithm F is correct.
+\textbf{Theorem:} The given "most points" algorithm (MP) is incorrect.
 \\ \\
-\textbf{Proof:} Assume to reach a contraction that there exists input I on which F produces unacceptable output.
+\textbf{Proof:} 
 \\ \\
-Let F(I)=\{$P_{\alpha(1)}$, $P_{\alpha(2)}$, ..., $P_{\alpha(n)}$\} be the output of F on input I
-\\ \& OPT(I)=\{$P_{\beta(1)}$, $P_{\beta(2)}$, ..., $P_{\beta(n)}$\} be the optimal solution that agrees with F(I) the most number of steps
+Consider the input P = \{0.5, 1.0, 1.49, 1.51, 2.0, 2.5\}
+\\ \\ \\ \\ \\ \\ 
+\\ Clearly the interval $I_1$ = (1, 2) covers the most points in P, so MP adds $I_1$ to S.  Now MP has no choice but to add separate intervals $I_2$ = (0.5, 1.5) and $I_3$ = (1.5, 2.5) to cover the remaining two points (0.5 and 2.5, respectively). 
+\\ \\ \centerline{\textbf{Thus MP has arrived at S = $\{ I_1,  I_2, I_3\}$}}
+\\ \\ \\
+Now consider S = \{(0.5, 1.5), (1.5, 2.5)\}
+\\ \\ \\ \\ \\ \\ 
+Clearly OPT(P) = S, $| OPT(P) | < | MP(P) |$, and MP is not optimal for P.
+\\ \\ $\therefore$ MP is not correct.
+\\
+\pagebreak
+\\
+\textbf{(b)}
+\\
+\textbf{Input:} A set of n points on the real line A where $a_i$ $\in$ $\mathbb{R}$.
 \\ \\
-Consider the first point of disagreement k between OPT and F
-\\ \\ \\ \\ \\ \\ \\ \\ 
-Let OPT' equal OPT with $P_{\alpha(k)}$ chosen at k instead of $P_{\beta(k)}$
+\textbf{Output:} Minimum cardinality collection S of unit intervals that cover every point in A.
 \\ \\
-Clearly OPT' is more similar to F (for one additional step)
+\textbf{Theorem:} The given "left-most" algorithm (LM) is correct / optimal.
 \\ \\
-To show that OPT' is still correct, consider the four possible cases for input I:
+\textbf{Proof:} Assume to reach a contradiction that there exists an input on which LM produces an unacceptable output.
 \\ \\
-\centerline{Case 1}
-\\ \\ \\ \\ 
-In this case, neither $P_{\alpha(k)}$ nor $P_{\beta(k)}$ exist in the input after time-step k. Therefore $|E|$ and $|E'|$ do not change.
-\\ \\
-\centerline{Case 2}
-\\ \\ \\ \\ 
-In this case, only $P_{\beta(k)}$ exists in the input after time-step k. Since $P_{\beta(k)}$ is needed at some point in the future (and OPT has evicted it at time-step k), OPT is guaranteed to need at least one additional eviction. Therefore $|E|$ \textgreater $|E'|$.
-\\ \\
-\centerline{Case 3}
-\\ \\ \\ \\ 
-In this case, both $P_{\alpha(k)}$ and $P_{\beta(k)}$ exist in the input after time-step k. Therefore $|E|$ must account for an eviction to bring $P_{\beta(k)}$ back into fast memory and $|E'|$ must account for an eviction to bring $P_{\alpha(k)}$ back into fast memory.  
-\\ \\
-\centerline{Case 4}
-\\ \\ \\ \\ 
-In this case, only $P_{\alpha(k)}$ exists in the input after time-step k. By the definition of F, if $P_{\beta(k)}$ did not exist in the input after time-step k then F would have chosen it. Therefore this is an impossible state.
-\\ \\
-In all cases, $|E|$ $\geq$ $|E'|$. Therefore (since we are minimizing) OPT $\leq$ OPT'
-\\ \\ $\therefore$ We have reached a contradiction because OPT' agrees with F for one additional step (and still produces a correct output) despite OPT being defined as agreeing with F for the most number of steps.
+Let $I_i$ be unit-intervals 
+\\ \& LM(A) = \{$I_{\alpha(1)}$, ..., $I_{\alpha(n)}$\} be the output of LM on input I
+\\ \& OPT(A) = \{$I_{\beta(1)}$, ..., $I_{\beta(n)}$\} be the optimal solution that agrees with LM(I) for the most number of steps
+\\ \\ \\ \\ \\ \\
+Let $a_k$ be the first point where LM(I) differs from OPT(I)
+\\ \\ By the definition of LM, we know that the interval which covers $a_k$ is $I_{\alpha(k)}$ = $(a_k, a_k+1)$
+\\ \\ In order to define $I_{\beta(k)}$, we should make a few observations:
+\\ \\ $\bullet$ All points to the left of $a_k$ are covered by some interval in OPT (by the definition of LM) and $a_k$ is not covered
+\\ \\ $\bullet$ The interval $I_{\beta(k)}$ can not start to the right of $a_k$ (because $a_k$ would not be covered) and $I_{\alpha(k)}$ $\neq$ $I_{\beta(k)}$
+\\ \\ $\bullet$ Therefore, $I_{\beta(k)}$ must start to the \textbf{left} of $a_k$ in OPT
+\\ \\ So for some distance $\Delta$, the interval in OPT which covers point $a_k$ is $I_{\beta(k)}$ = $(a_k-\Delta, a_k+1-\Delta)$
+\\ \\ Let OPT' = OPT with $I_{\beta(k)}$ shifted to the right by $\Delta$:
+\\ \centerline{$I'_{\beta(k)}$ = $I_{\beta(k)}$ + ($\Delta$, $\Delta$) = $(a_k, a_k+1)$ = $I_{\alpha(k)}$}
+\\ \\ As stated earlier, every point $a_i$ where i $\textless$ k has been covered by some previous interval, therefore we can safely move the interval $I_{\beta(k)}$ to the right by a distance $\Delta$. This move may cause a potential overlap to the right, however this overlapping is inconsequential
+\\ \\ Further note that OPT' is still optimal because it does not create any additional intervals and covers all the points
+\\ \\ $\therefore$ We have reached a contradiction because OPT' agrees with LM for one additional step despite OPT being defined as agreeing with LM for the most number of steps.
+
 \end{homeworkProblem}
 
 \end{document}
