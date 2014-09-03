@@ -143,21 +143,40 @@
 \\ \\
 \textbf{Proof:} 
 Assume to reach a contradiction that there exists some input I on which G produces an unacceptable output. Let OPT be the optimal solution that agrees with G for the most number of steps. Let the first disagreance be word $w_{L_k}$ on line $k$. The only way OPT can disagree with G is if OPT moves $w_{L_k}$ to a new line and G does not (obviously G wont fail to place a word on a line that it is able to).
-\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
-Let OPT' be a modified version of OPT, such that with the first word on each new line ($w_{L_k}, w_{L_{k+1}}, ..., w_{L_n}$) each moved to the previous line if possible. The logic governing moving the first word on the $i^{th}$ line up to the $(i-1)^{th}$ line is as follows.
-\\ \\
-\centering{
-\begin{tabbing}
-\hspace*{2cm}\=\hspace*{3cm}\= \kill
-\> if $w_i <= (L - K_{i-1})$:
-\end{tabbing}
-}
-
-
+\\ \\ \\ \\ \\ \\ \\ \\ \\
+Let OPT' be a modified version of OPT, such that the first word on each new line ($w_{L_k}, w_{L_{k+1}}, ..., w_{L_n}$) is moved to the previous line if possible. The logic governing this movement from the $i^{th}$ line to the $(i-1)^{th}$ line is as follows.
+\\ 
+\begin{algorithmic}[1]
+\If{$w_{L_i} \le (L - K'_{i-1})$}
+	\If{$w_{L_i}$ is the only word on the last line}
+		\State remove the final line, as the word fits on the previous line
+		\State $P_i$ changed from $L - w_i$ to 0 ($\Delta P < 0$)
+		\State $P_{i-1} -= w_i$
+	\Else
+		\State Move $w_i$ from $L_i$ to $L_{i-1}$ 
+		\State $P_i += w_i$
+		\State $P_{i-1} -= w_i$
+		\State $\Delta P = 0$
+	\EndIf
+\Else
+	\State No move takes place
+	\State $\Delta P = 0$
+\EndIf 
+\end{algorithmic}
+\leavevmode
+\\
+We know that OPT' can fit $w_k$ on the prior line, since G made this selection. Clearly, this move alone will have no effect on P (P gains $w_k$ on one line, and loses it on the next). Clearly, this makes OPT' more like G. 
 
 \end{homeworkProblem}
 
+\pagebreak
 
+\begin{homeworkProblem}
+\textbf{(b)}
+
+\end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
 \centerline{\textbf{Problem 7}}
