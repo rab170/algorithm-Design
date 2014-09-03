@@ -213,20 +213,39 @@ Let OPT'(I) = OPT(I) with time t shifted to the next stop:
 \\ \\
 \textbf{Output:} Minimum cardinality of a sequence of evicted pages E
 \\ \\
-\textbf{Theorem:} The given "most points" algorithm (MP) is incorrect.
+\textbf{Theorem:} The "farthest in the future" algorithm F is correct.
 \\ \\
-\textbf{Proof:} 
+\textbf{Proof:} Assume to reach a contraction that there exists input I on which F produces unacceptable output.
 \\ \\
-Consider the input P = \{0.5, 1.0, 1.49, 1.51, 2.0, 2.5\}
-\\ \\ \\ \\ \\ \\ 
-\\ Clearly the interval $I_1$ = (1, 2) covers the most points in P, so MP adds $I_1$ to S.  Now MP has no choice but to add separate intervals $I_2$ = (0.5, 1.5) and $I_3$ = (1.5, 2.5) to cover the remaining two points (0.5 and 2.5, respectively). 
-\\ \\ \centerline{\textbf{Thus MP has arrived at S = $\{ I_1,  I_2, I_3\}$}}
-\\ \\ \\
-Now consider S = \{(0.5, 1.5), (1.5, 2.5)\}
-\\ \\ \\ \\ \\ \\ 
-Clearly OPT(P) = S, $| OPT(P) | < | MP(P) |$, and MP is not optimal for P.
-\\ \\ $\therefore$ MP is not correct.
-
+Let F(I)=\{$P_{\alpha(1)}$, $P_{\alpha(2)}$, ..., $P_{\alpha(n)}$\} be the output of F on input I
+\\ \& OPT(I)=\{$P_{\beta(1)}$, $P_{\beta(2)}$, ..., $P_{\beta(n)}$\} be the optimal solution that agrees with F(I) the most number of steps
+\\ \\
+Consider the first point of disagreement k between OPT and F
+\\ \\ \\ \\ \\ \\ \\ \\ 
+Let OPT' equal OPT with $P_{\alpha(k)}$ chosen at k instead of $P_{\beta(k)}$
+\\ \\
+Clearly OPT' is more similar to F (for one additional step)
+\\ \\
+To show that OPT' is still correct, consider the four possible cases for input I:
+\\ \\
+\centerline{Case 1}
+\\ \\ \\ \\ 
+In this case, neither $P_{\alpha(k)}$ nor $P_{\beta(k)}$ exist in the input after time-step k. Therefore $|E|$ and $|E'|$ do not change.
+\\ \\
+\centerline{Case 2}
+\\ \\ \\ \\ 
+In this case, only $P_{\beta(k)}$ exists in the input after time-step k. Since $P_{\beta(k)}$ is needed at some point in the future (and OPT has evicted it at time-step k), OPT is guaranteed to need at least one additional eviction. Therefore $|E|$ \textgreater $|E'|$.
+\\ \\
+\centerline{Case 3}
+\\ \\ \\ \\ 
+In this case, both $P_{\alpha(k)}$ and $P_{\beta(k)}$ exist in the input after time-step k. Therefore $|E|$ must account for an eviction to bring $P_{\beta(k)}$ back into fast memory and $|E'|$ must account for an eviction to bring $P_{\alpha(k)}$ back into fast memory.  
+\\ \\
+\centerline{Case 4}
+\\ \\ \\ \\ 
+In this case, only $P_{\alpha(k)}$ exists in the input after time-step k. By the definition of F, if $P_{\beta(k)}$ did not exist in the input after time-step k then F would have chosen it. Therefore this is an impossible state.
+\\ \\
+In all cases, $|E|$ $\geq$ $|E'|$. Therefore (since we are minimizing) OPT $\leq$ OPT'
+\\ \\ $\therefore$ We have reached a contradiction because OPT' agrees with F for one additional step (and still produces a correct output) despite OPT being defined as agreeing with F for the most number of steps.
 \end{homeworkProblem}
 
 \end{document}
