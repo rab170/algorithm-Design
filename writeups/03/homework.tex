@@ -141,67 +141,21 @@
 \\ \\
 \textbf{Theorem:} The given greedy algoirthm G correctly solves this problem.
 \\ \\
-\textbf{Proof:} Assume to reach a contradiction that there exists an input on which G produces an unacceptable output.
+\textbf{Proof:} 
+Assume to reach a contradiction that there exists some input I on which G produces an unacceptable output. Let OPT be the optimal solution that agrees with G for the most number of steps. Let the first disagreance be word $w_{L_k}$ on line $k$. The only way OPT can disagree with G is if OPT moves $w_{L_k}$ to a new line and G does not (obviously G wont fail to place a word on a line that it is able to).
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
+Let OPT' be a modified version of OPT, such that with the first word on each new line ($w_{L_k}, w_{L_{k+1}}, ..., w_{L_n}$) each moved to the previous line if possible. The logic governing moving the first word on the $i^{th}$ line up to the $(i-1)^{th}$ line is as follows.
+\\ \\
+\begin{tabbing}
+\ if $w_i <= (L - K_{i-1})$:
+\end{tabbing}
+
 
 
 
 \end{homeworkProblem}
 
 
-
-
-\begin{homeworkProblem}
-\centerline{\textbf{Problem 5}}
-\leavevmode
-\\ \\
-\textbf{(a)}
-\\
-\textbf{Input:} Locations $x_1$, $x_2$, ..., $x_n$ of gas stations along a highway.
-\\ \\
-\textbf{Output:} Stoppage time at each station which minimizes the total time which you are stopped for gas.
-\\ \\
-\textbf{Theorem:} The given "next-station" algorithm (NS) is correct / optimal.
-\\ \\
-\textbf{Proof:} Assume to reach a contradiction that there exists an input on which NS produces an unacceptable output.
-\\ \\
-Let $S_i$ be the stoppage time at each station
-\\ \& NS(I)=\{$S_{\alpha(1)}$, $S_{\alpha(2)}$, ..., $S_{\alpha(n)}$\} be the output of NS on input I
-\\ \& OPT(I)=\{$S_{\beta(1)}$, $S_{\beta(2)}$, ..., $S_{\beta(n)}$\} be the optimal solution that agrees with NS(I) the most number of steps
-\\ \\ \\ \\ \\ \\
-Let $x_k$ be the first stop of the trip upon which NS(I) differs from OPT(I)
-\\ \\ By the definition of NS, filling up for any time less than $S_\alpha(k)$ would not get you to the next station and since $S_{\alpha(k)}$ $\neq$ $S_{\beta(k)}$, then we know that $S_{\beta(k)}$ $\textgreater$ $S_{\alpha(k)}$
-\\ \\ Let time t be defined as the difference between those stoppage times, t = $S_{\beta(k)}$ - $S_{\alpha(k)}$
-\\ \\ Therefore $S_{\beta(k)}$ = $S_{\alpha(k)}$ + t:
-\\ \\ \\ \\ \\ \\ \\ \\
-Let OPT'(I) = OPT(I) with time t shifted to the next stop: 
-\\
-\centerline{$S'_k$ = $S_k$ - t}
-\centerline{$S'_{k+1}$ = $S_{k+1} + t$}
-\\ \\ Clearly, we haven't changed the total stoppage time and we know that we can reach the next stop by the definition of NS. Furthermore we add the difference to the stop at $x_{k+1}$, so we will undoubtably be able to reach the station at $x_{k+2}$ -- and all future stations. 
-\\ \\ $\therefore$ We have reached a contradiction because OPT' agrees with NS for one additional step despite OPT being defined as agreeing with NS for the most number of steps.
-
-\end{homeworkProblem}
-
-\pagebreak
-
-\begin{homeworkProblem}
-\textbf{(b)}
-\\
-\textbf{Input:} Locations $x_1$, ..., $x_n$ of gas stations along a highway.
-\\ \\
-\textbf{Output:} Stoppage time at each station which minimizes the total time which you are stopped for gas.
-\\ \\
-\textbf{Theorem:} The given "fill-up" algorithm (FU) is not correct or optimal.
-\\ \\
-\textbf{Proof:}
-\\
-\\ Consider the input I = $\{x_1, x_2\}$ where $x_2 - x_1$ = $\frac{1}{2} \frac{C}{F}$ 
-\\ \\ Note that to reach $x_2$ from $x_1$ it would take $F(x_2 - x_1) = F(\frac{1}{2} \frac{C}{F}) = \frac{1}{2} C$ liters of gas
-\\ \\ At $x_1$ the tank is filled to capacity according to FU, taking $\frac{C}{r}$ minutes. But it is possible and correct to reach $x_2$ using only $\frac{1}{2}C$ liters, making the optimal time $\frac{1}{2} \frac{C}{r}$ minutes.
-\\ \\ $\therefore$ FU is not correct or optimal. 
-\end{homeworkProblem}
-
-\pagebreak
 
 \begin{homeworkProblem}
 \centerline{\textbf{Problem 7}}
