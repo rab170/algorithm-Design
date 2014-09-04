@@ -141,7 +141,15 @@
 \\
 \textbf{Theorem:} The given "minimized height difference first" algorithm MF is correct.
 \\ \\
-\textbf{Proof:} COUNTER EXAMPLE
+\textbf{Proof:} Consider a "counter-example" algorithm CE to prove MF is incorrect.
+\\ \\ Let $T$ be the total height difference (and $\frac{T}{n}$ be the average total height difference),
+\\ \& $H_i$ be the height difference between a person $p_i$ and a chosen ski $s_{\alpha(i)}$.
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ 
+Clearly $\frac{T_{MF}}{n}$ $\textgreater$ $\frac{T_{CE}}{n}$ and the problem wants us to minimize $\frac{T}{n}$. 
+\\ \\ 
+Also -- let OPT be the optimal solution to this problem -- we see that MF $\textless$ CE $\leq$ OPT.
+\\ \\
+$\therefore$ The given algorithm MF is sub-optimal and not correct by way of this counter-example.
 \end{homeworkProblem}
 
 \pagebreak
@@ -172,7 +180,14 @@
 \\
 \textbf{Theorem:} That the given "shortest job first" algorithm SJF is correct.
 \\ \\
-\textbf{Proof:} COUNTER EXAMPLE
+\textbf{Proof:}  Consider a "counter-example" algorithm CE to prove SJF is incorrect.
+\\ \\ Let $C$ be the total completion time and $C_i$ be the completion time for job $i$.
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ 
+Clearly $C_{SJF}$ $\textgreater$ $C_{CE}$ and the problem requires us to minimize $C$.
+\\ \\ 
+Also -- let OPT be the optimal solution to this problem -- we see that SJF $\textless$ CE $\leq$ OPT.
+\\ \\
+$\therefore$ The given algorithm SJF is sub-optimal and not correct by way of this counter-example.
 \end{homeworkProblem}
 
 \pagebreak
