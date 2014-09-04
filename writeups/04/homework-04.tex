@@ -137,11 +137,11 @@
 \\
 \textbf{Input:} A number n of skiers with heights $p_1, ... , p_n$, and n skies with heights $s_1, ... , s_n$.
 \\
-\textbf{Output:} The average difference between skier height $p_i$ and ski height $s_{\alpha(i)}$ (must minimize): $\frac{1}{n} \sum\limits_{i=1}^n |p_i - s_{\alpha(i)}|$
+\textbf{Output:} The minimal average difference between skier height $p_i$ and ski height $s_{\alpha(i)}$: $\frac{1}{n} \sum\limits_{i=1}^n |p_i - s_{\alpha(i)}|$
 \\
-\textbf{Theorem:} 
+\textbf{Theorem:} The given "minimized height difference first" algorithm MF is correct.
 \\ \\
-\textbf{Proof:}
+\textbf{Proof:} COUNTER EXAMPLE
 \end{homeworkProblem}
 
 \pagebreak
@@ -151,11 +151,11 @@
 \\
 \textbf{Input:} A number n of skiers with heights $p_1, ... , p_n$, and n skies with heights $s_1, ... , s_n$.
 \\
-\textbf{Output:} The average difference between skier height $p_i$ and ski height $s_{\alpha(i)}$ (must minimize): $\frac{1}{n} \sum\limits_{i=1}^n |p_i - s_{\alpha(i)}|$
+\textbf{Output:} The minimal average difference between skier height $p_i$ and ski height $s_{\alpha(i)}$: $\frac{1}{n} \sum\limits_{i=1}^n |p_i - s_{\alpha(i)}|$
 \\
-\textbf{Theorem:} 
+\textbf{Theorem:} The given "shortest-skier to shortest-ski" algorithm SS is correct.
 \\ \\
-\textbf{Proof:}
+\textbf{Proof:} EXCHANGE ARGUMENT
 \end{homeworkProblem}
 
 \pagebreak
@@ -164,29 +164,29 @@
 \centerline{\textbf{Problem 10}}
 \leavevmode
 \\ \\
-\textbf{Algorithm:} SJF
-\\ \\
-\textbf{Input:} 
+\textbf{(SJF)}
 \\
-\textbf{Output:} 
+\textbf{Input:} A collection of jobs $J_1, ... , J_n$, where the $i$th job is a tuple ($r_i, x_i$) of non-negative integers specifying the release time $r$ and size of the job $x$.
 \\
-\textbf{Theorem:} 
+\textbf{Output:} A preemptive feasible schedule on one processor that minimizes the total completion time $\sum\limits_{i=1}^n C_i$
+\\
+\textbf{Theorem:} That the given "shortest job first" algorithm SJF is correct.
 \\ \\
-\textbf{Proof:}
+\textbf{Proof:} COUNTER EXAMPLE
 \end{homeworkProblem}
 
 \pagebreak
 
 \begin{homeworkProblem}
-\textbf{Algorithm:} SRPT
-\\ \\
-\textbf{Input:} 
+\textbf{(SRPT)}
 \\
-\textbf{Output:} 
+\textbf{Input:} A collection of jobs $J_1, ... , J_n$, where the $i$th job is a tuple ($r_i, x_i$) of non-negative integers specifying the release time $r$ and size of the job $x$.
 \\
-\textbf{Theorem:} 
+\textbf{Output:} A preemptive feasible schedule on one processor that minimizes the total completion time $\sum\limits_{i=1}^n C_i$
+\\
+\textbf{Theorem:} That the given "shortest remaining processing time" algorithm SRPT is correct.
 \\ \\
-\textbf{Proof:}
+\textbf{Proof:} EXCHANGE ARGUMENT
 \end{homeworkProblem}
 
 \end{document}
