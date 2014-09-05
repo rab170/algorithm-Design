@@ -1,0 +1,207 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Greedy Algorithms}
+\newcommand{\hmwkProblems}{9 and 10}
+\newcommand{\hmwkDueDate}{September 5, 2014}
+\newcommand{\ClassName}{Algorithm Design}
+\newcommand{\ClassNumber}{CS 1510}
+\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
+
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lhead{\ClassNumber\ - \ClassName}
+\chead{\hmwkTitle}
+\rhead{Problems \hmwkProblems}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+
+
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 9}}
+\leavevmode
+\\ \\
+\textbf{(a)}
+\\
+\textbf{Input:} A number n of skiers with heights $p_1, ... , p_n$, and n skies with heights $s_1, ... , s_n$.
+\\
+\textbf{Output:} The minimal average difference between skier height $p_i$ and ski height $s_{\alpha(i)}$: $\frac{1}{n} \sum\limits_{i=1}^n |p_i - s_{\alpha(i)}|$
+\\
+\textbf{Theorem:} The given "minimized height difference first" algorithm MF is correct.
+\\ \\
+\textbf{Proof:} Consider a "counter-example" algorithm CE to prove MF is incorrect.
+\\ \\ Let $T$ be the total height difference (and $\frac{T}{n}$ be the average total height difference),
+\\ \& $H_i$ be the height difference between a person $p_i$ and a chosen ski $s_{\alpha(i)}$.
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ 
+Clearly $\frac{T_{MF}}{n}$ $\textgreater$ $\frac{T_{CE}}{n}$ and the problem wants us to minimize $\frac{T}{n}$. 
+\\ \\ 
+Also -- let OPT be the optimal solution to this problem -- we see that MF $\textless$ CE $\leq$ OPT.
+\\ \\
+$\therefore$ The given algorithm MF is sub-optimal and not correct by way of this counter-example.
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+\textbf{(b)} 
+\\
+\textbf{Input:} A number n of skiers with heights $p_1, ... , p_n$, and n skies with heights $s_1, ... , s_n$.
+\\
+\textbf{Output:} The minimal average difference between skier height $p_i$ and ski height $s_{\alpha(i)}$: $\frac{1}{n} \sum\limits_{i=1}^n |p_i - s_{\alpha(i)}|$
+\\
+\textbf{Theorem:} The given "shortest-skier to shortest-ski" algorithm SS is correct.
+\\ \\
+\textbf{Proof:} EXCHANGE ARGUMENT
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 10}}
+\leavevmode
+\\ \\
+\textbf{(SJF)}
+\\
+\textbf{Input:} A collection of jobs $J_1, ... , J_n$, where the $i$th job is a tuple ($r_i, x_i$) of non-negative integers specifying the release time $r$ and size of the job $x$.
+\\
+\textbf{Output:} A preemptive feasible schedule on one processor that minimizes the total completion time $\sum\limits_{i=1}^n C_i$
+\\
+\textbf{Theorem:} That the given "shortest job first" algorithm SJF is correct.
+\\ \\
+\textbf{Proof:}  Consider a "counter-example" algorithm CE to prove SJF is incorrect.
+\\ \\ Let $C$ be the total completion time and $C_i$ be the completion time for job $i$.
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ 
+Clearly $C_{SJF}$ $\textgreater$ $C_{CE}$ and the problem requires us to minimize $C$.
+\\ \\ 
+Also -- let OPT be the optimal solution to this problem -- we see that SJF $\textless$ CE $\leq$ OPT.
+\\ \\
+$\therefore$ The given algorithm SJF is sub-optimal and not correct by way of this counter-example.
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+\textbf{(SRPT)}
+\\
+\textbf{Input:} A collection of jobs $J_1, ... , J_n$, where the $i$th job is a tuple ($r_i, x_i$) of non-negative integers specifying the release time $r$ and size of the job $x$.
+\\
+\textbf{Output:} A preemptive feasible schedule on one processor that minimizes the total completion time $\sum\limits_{i=1}^n C_i$
+\\
+\textbf{Theorem:} That the given "shortest remaining processing time" algorithm SRPT is correct.
+\\ \\
+\textbf{Proof:} EXCHANGE ARGUMENT
+\end{homeworkProblem}
+
+\end{document}
