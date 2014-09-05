@@ -163,7 +163,62 @@ $\therefore$ The given algorithm MF is sub-optimal and not correct by way of thi
 \\
 \textbf{Theorem:} The given "shortest-skier to shortest-ski" algorithm SS is correct.
 \\ \\
-\textbf{Proof:} EXCHANGE ARGUMENT
+\textbf{Proof:} Assume to reach a contradiction that there exists an input on which SS produces an unacceptable output.
+\\ \\
+Let SS(I) be the output of SS on input I
+\\ \& OPT(I) be the optimal solution which agrees with SS(I) the most number of steps
+\\ \\ \\ \\ \\ \\ \\
+Let $k$ be the first point in time where the pairing of skier to ski in SS(I) differs from the pairing in OPT(I)
+\\ \\
+Let OPT'(I) = OPT with $s_{\beta}$ and $s_{\alpha}$ swapped.
+\\
+Note: $p_\alpha$ could be the same person as $p_\beta$ but they do not have to be
+\\ \\ \\ \\ \\ \\ \\ \\ \\
+Clearly OPT' is more like SS at time step $k$
+\\
+Ultimately, we want to show that the average height difference between OPT and OPT' has not gotten worse (in order to prove that OPT' is still an acceptable solution).
+\\ \\
+First we make a few simple observations: by definition of SS, we know that $p_k$ $\textless$ $p_\beta$ and that $s_\alpha$ $\textless$ $s_\beta$
+\\ \\ 
+Using this knowledge, we can order all possible arrangements of skies and skiers by height:
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ 
+Thus we have 6 clear cases and for each we must show that the average height difference between OPT and OPT' has not gotten worse. We can do this by using an inequality: $|p_k - s_\alpha| + |p_\beta - s_\beta| \leq |p_k - s_\beta| + |p_\beta - s_\alpha|$ (the height difference of OPT' is $\leq$ the height difference of OPT)
+\\ \\
+If we can prove this inequality valid for each of our six cases, we will have proven that OPT' is no worse than OPT. We may remove the absolute values in the inequality by simply reordering the terms to always produce a positive value (based on which of the terms is larger on a case-by-case basis)...
+\\ \\ \\ \\
+\centerline{Case 1 : $p_k \leq p_\beta \leq s_\alpha \leq s_\beta$}
+\\ \\ 
+\\ \\
+\\ \\
+\\ \\
+\centerline{Case 2 : $s_\alpha \leq p_k \leq p_\beta \leq s_\beta$}
+\\ \\ 
+\\ \\
+\\ \\
+\\ \\
+\centerline{Case 3 : $p_k \leq s_\alpha \leq p_\beta \leq s_\beta$}
+\\ \\ 
+\\ \\
+\\ \\
+\\ \\
+\centerline{Case 4 : $p_k \leq s_\alpha \leq s_\beta \leq p_\beta$}
+\\ \\ 
+\\ \\
+\\ \\
+\\ \\
+\centerline{Case 5 : $s_\alpha \leq s_\beta \leq p_k \leq p_\beta$}
+\\ \\ 
+\\ \\
+\\ \\
+\\ \\
+\centerline{Case 6 : $s_\alpha \leq p_k \leq s_\beta \leq p_\beta$}
+\\ \\ 
+\\ \\
+\\ \\
+\\ \\
+Our inequality is valid for every case, thus we have shown that the height difference between OPT and OPT' has not gotten any worse.
+\\ \\
+$\therefore$ We have reached a contradiction because OPT' is still a valid solution and it agrees with SS for one additional step despite OPT being defined as agreeing for the most number of steps.
 \end{homeworkProblem}
 
 \pagebreak
