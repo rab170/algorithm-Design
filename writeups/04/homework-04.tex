@@ -252,16 +252,31 @@ $\therefore$ The given algorithm SJF is sub-optimal and not correct by way of th
 \\
 \textbf{Input:} A collection of jobs $J_1, ... , J_n$, where the $i$th job is a tuple ($r_i, x_i$) of non-negative integers specifying the release time $r$ and size of the job $x$.
 \\
-\textbf{Output:} A preemptive feasible schedule on one processor that minimizes the total completion time $\sum\limits_{i=1}^n C_i$
+\textbf{Output:} A preemptive feasible schedule on one processor that minimizes the total completion time $\sum\limits_{i=1}^n C_i$.
 \\
-\textbf{Theorem:} That the given "shortest remaining processing time" algorithm SRPT is correct.
+\textbf{Theorem:} The given "shortest remaining processing time" algorithm SRPT is correct.
 \\ \\
 \textbf{Proof:} 
 \\
-Suppose, for the sake of reaching a contradiction, that the SRPT algorithm produces unacceptable output for some input I. Let $SRPT(I) = \{ J_{\alpha 1} J_{\alpha 2}, ... J_{\alpha n}\}$ be the scheduling output of SRPT, and let and $OPT(I) = \{ J_{\alpha 1} J_{\alpha 2}, ... J_{\alpha n}\}$ be the output of some optimal algorithm which agrees with SRPT for the most number of steps. Each $J$ $\epsilon$ OUTPUT, $J$ identifies a job that executes for a single unit of time $r$ is the remaining number of time units required for job completion. Each tuple represents a 1 time-unit interval of execution.
+Suppose, for the sake of reaching a contradiction, SRPT produces unacceptable output for some input I. Let $SRPT(I) = \{ J_{\alpha 1} J_{\alpha 2}, ... , J_{\alpha n}\}$ be the output of SRPT, and and $OPT(I) = \{ J_{\alpha 1} J_{\alpha 2}, ... J_{\alpha n}\}$ be the output of some optimal algorithm which agrees with SRPT for the most number of steps. For each $J_i$ $\epsilon$ OUTPUT, $J_i$ identifies a job that executes for a single unit of time and $r_i$ is the remaining number of time units required for job completion. Each tuple represents a 1 time-unit interval of execution.
 \\ \\ 
-Consider the output of these two algorithms. Let k be the first point of scheduling disagreement, where SRPT schedules $J_{\alpha k}$ which completes at $J_{\alpha k_C}$ and OPT schedules $J_{\beta k}$ which completes at $J_{\beta k_C}$.
+Consider the output of these two algorithms. Let k be the first point of disagreement, where SRPT schedules $J_{\alpha k}$ which completes at $J_{\alpha k_n}$ and OPT schedules $J_{\beta k}$ which completes at $J_{\beta k_m}$. This disagreement can take the two following forms.
+\\ \\ \\ \\ \\ \\ \\ \\  \\ \\  \\ \\ \\ \\
 
+Let OPT' be OPT with each $S_{\alpha k_i} \epsilon \{S_{\alpha k_1}, ..., S_{\alpha k_n}\}$ swapped with $S_{\beta i} \epsilon \{S_{\beta k_1}, ..., S_{\beta k_m}\}$ until every $S_{\beta i}$ appears AFTER every $S_{\alpha i}$ in the schedule. Note that $r_{\alpha k} = |\{S_{\alpha k}, ..., S_{\alpha k_C}\}|$  and $r_{\beta k} = |\{S_{\beta k}, ..., S_{\beta k_C}\}|$ and $r_{\alpha k} \le r_{\beta k}$. Consider OPT' for the two general forms above.
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ 
+\centerline{CASE 1}
+\\ \\ $C_\alpha' \le C_\alpha$ since $J_{\alpha k_C}$ no longer needs to wait for any $J_{\beta i}$, and $C_\beta' = C_\beta$ since $r_\alpha \le r_\beta$ (and $J_{\beta k_C}$ is therefore never swapped). Thus $C_\alpha' + C_\beta' \le C_\alpha + C_\beta$. Since no intervals were inserted/created (only swapped) OPT' has not affected any other completion times, and this translates into $\sum\limits_{i=1}^n C_i$
+\leavevmode
+\\ \\ \\
+\centerline{CASE 2}
+\\ \\
+$C_\alpha' \le C_\beta$ (in words, $J_{\alpha k} \epsilon OPT'$ completes at or before $J_{\alpha k} \epsilon OPT$) since all $J_{\alpha k_i}$ are swapped until they appear before all $J_{\beta k_i}$; and $C_\beta' = C_\alpha$ since the position of $J_{\alpha k_n}$ in OPT is swapped with some $J_{\beta k_i}$ to become the new completion time of $J_{\beta k}$ in OPT'). Thus $C_\alpha' + C_\beta' \le C_\alpha + C_\beta$, and as in CASE 1 since no intervals were created/inserted, this translates into  $\sum\limits_{i=1}^n C_i$.
+\leavevmode
+\\ \\ \\
+Clearly, OPT' is more like SRPT than OPT. We have also demonstrated the correctness of OPT' in the two feasible scenarios of disagreement between OPT and SRPT. Thus OPT' is correct and more like SRPT than OPT, and we have reached a contradiction.
+\\ \\
+$\therefore$ SRPT is correct.
 
 
 \end{homeworkProblem}
