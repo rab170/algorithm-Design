@@ -274,9 +274,9 @@ Let OPT' be OPT with each $S_{\alpha k_i} \epsilon \{S_{\alpha k_1}, ..., S_{\al
 $C_\alpha' \le C_\beta$ (in words, $J_{\alpha k} \epsilon OPT'$ completes at or before $J_{\alpha k} \epsilon OPT$) since all $J_{\alpha k_i}$ are swapped until they appear before all $J_{\beta k_i}$; and $C_\beta' = C_\alpha$ since the position of $J_{\alpha k_n}$ in OPT is swapped with some $J_{\beta k_i}$ to become the new completion time of $J_{\beta k}$ in OPT'). Thus $C_\alpha' + C_\beta' \le C_\alpha + C_\beta$, and as in CASE 1 since no intervals were created/inserted, this translates into  $\sum\limits_{i=1}^n C_i$.
 \leavevmode
 \\ \\ \\
-Clearly, OPT' is more like SRPT than OPT. We have also demonstrated the correctness of OPT' in the two feasible scenarios of disagreement between OPT and SRPT. Thus OPT' is correct and more like SRPT than OPT, and we have reached a contradiction.
+Clearly, OPT' is more like SRPT than OPT. We have also demonstrated the correctness of OPT' in the two feasible scenarios of disagreement between OPT and SRPT.
 \\ \\
-$\therefore$ SRPT is correct.
+$\therefore$ We observe a contradiction implying the correctness of SRPT.
 
 
 \end{homeworkProblem}
