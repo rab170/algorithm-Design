@@ -31,7 +31,7 @@
 \usepackage{amsfonts}
 \usepackage{tikz}
 \usepackage[plain]{algorithm}
-\usepackage{algpseudocode}
+\usepackage[noend]{algpseudocode}
 \usepackage{amssymb}
 
 \usetikzlibrary{automata,positioning}
@@ -196,9 +196,60 @@
 \leavevmode
 \textbf{(a)} 
 \\
+\begin{algorithmic}
+\Procedure{T}{int $n$}
+	\If{n == 0 or n==1}
+  		\State return 2;
+	\EndIf
+	
+	\State SUM = 0
+	\For {$1 \le i \le n-1$}
+		\State SUM+=T(i)*T(i-1)
+	\EndFor	
+	\State \Return SUM
+\EndProcedure
+\end{algorithmic}
+\leavevmode
+\\
 \textbf{(b)} 
 \\
+\begin{algorithmic}
+\Procedure{T}{int $n$}
+	\If{n == 0 or n==1}
+  		\State return 2;
+	\EndIf
+	
+	\State T[0] = 2, T[1] = 2
+	\For {$2 \le i \le n$}
+		\State SUM = 0
+		\For {$1 \le j \le n-1$}
+			\State SUM+=T[j]*T[j-1]
+		\EndFor
+	T[i] = SUM
+	\EndFor	
+	\State \Return T[n]
+\EndProcedure
+\end{algorithmic}
+\leavevmode
+\\
 \textbf{(c)} 
+\\
+\begin{algorithmic}
+\Procedure{T}{int $n$}
+	\If{n == 0 or n==1}
+  		\State return 2;
+	\EndIf
+	
+	\State T[0] = 2, T[1] = 2, T[2] = 4
+	\For {$3 \le i \le n$}
+		\State T[i] = T[i-1]*T[i-2] + T[i-1]
+	\EndFor	
+	\State \Return T[n]
+\EndProcedure
+\end{algorithmic}
+\leavevmode
+\\
+
 \end{homeworkProblem}
 
 
