@@ -146,7 +146,7 @@ Assume to reach a contradiction that there exists some input I on which G produc
 \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
 Let OPT' be a modified version of OPT, such that the first word on each new line ($w_{L_k}, w_{L_{k+1}}, ..., w_{L_n}$) is moved to the previous line if possible. The logic governing this movement from the $i^{th}$ line to the $(i-1)^{th}$ line is as follows. 
 \\ 
-\begin{algorithmic}[1]
+\begin{algorithmic}
 \For{$i \ge k$}
 \If{$w_{L_i} \le (L - K'_{i-1})$}
 	\If{$w_{L_i}$ is the ONLY word on the LAST line}

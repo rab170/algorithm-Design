@@ -152,15 +152,38 @@
 \leavevmode
 \textbf{(a)} 
 \\
-\textbf{Input:}
-\\
-\textbf{Output:} 
+\textbf{Input:} A set of $n$ jobs $j$ -- each job is described by an integer release time and deadline ($r_j$, $d_j$) -- each of which must run for one unit of time. Additionally at each time interval t $\in$ [0, $T$), the machine may be ON or OFF at the time interval ($t$, $t+1$). Let $T$ equal the maximum deadline -- max($d_j$) for all $j$
 \\ \\
-\textbf{Algorithm:}
+\textbf{Output:} Whether or not a feasible sequence was found in which every job ran for one unit of time at some interval after $r_j$ and before $d_j$.
 \\ \\
-\textbf{Theorem:} 
+\textbf{Algorithm:} Run the job with the earliest deadline first:
+\begin{algorithmic}
+\If{the machine is on at time $t$}
+	\For{each job that has not yet run \&\& is released -- ($r_j$ $\leq$ $t$)}
+		\State Run the job with the earliest deadline -- (min($d_j$) for all $j$) -- (break ties arbitrarily)
+	\EndFor
+\EndIf
 \\
-\textbf{Proof:} 
+\If{all jobs in the input $I$ have run by time $T$}
+	\State return FEASIBLE
+\Else
+	\State return NOT FEASIBLE
+\EndIf
+\end{algorithmic}
+\leavevmode
+\\
+\textbf{Theorem:} The described "earliest deadline first" algorithm EDF is correct.
+\\ \\
+\textbf{Proof:} Assume to reach a contradiction that there exists an input on which EDF produces an unacceptable output.
+\\ \\
+Let EDF(I) = \{$j_{\alpha(1)}$, ..., $j_{\alpha(n)}$\} be the output of EDF on input I
+\\ \& OPT(I) = \{$j_{\beta(1)}$, ..., $j_{\beta(n)}$\} be the optimal solution which agrees with EDF(I) for the most number of steps
+\\ \\ Let $k$ be the first point of disagreement between EDF and OPT
+\\ \\ \\ \\ \\ \\ \\ \\ \\
+By the definition of EDF, we know that the deadline for $j_k$ in EDF(I) is earlier than (or tied with) the deadline of $j_k$ in OPT(I) -- $d_{\alpha(k)}$ $\leq$ $d_{\beta(k)}$
+\\ \\
+Let 
+
 \end{homeworkProblem}
 
 
@@ -178,7 +201,7 @@
 \\
 \textbf{Output:} 
 \\ \\
-\textbf{Algorithm:}
+\textbf{Algorithm:} 
 \\ \\
 \textbf{Theorem:} 
 \\
