@@ -155,7 +155,7 @@ By the same logic, for case 2 we can deduce that there is some column ($m$) in B
 Let the output of OPT' on I equal B with the values of $b_{i,j}$, $b_{i, m}$, and $b_{k,j}$ changed to their opposite values. If OPT was indeed correct to begin with, then we see the following result for the two possible cases.
 \\ \\
 \centerline{CASE 1}
-\centerline{$\sum_{w=1}^{n} b_{i,w} = r_i =  r_i - b_{i,m} - b_{i,j} + !(b_{i, m}) + !(b_{i, j}) =  (r_i  -1 + 1 = r_i$}
+\centerline{$\sum_{w=1}^{n} b_{i,w} = r_i =  r_i - b_{i,m} - b_{i,j} + !(b_{i, m}) + !(b_{i, j}) =  r_i - 0 
 
 
 

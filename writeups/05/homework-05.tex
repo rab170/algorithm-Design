@@ -155,7 +155,7 @@ By the same logic, for case 2 we can deduce that there is some column ($m$) in B
 Let the output of OPT' on I equal B with the values of $b_{i,j}$, $b_{i, m}$, and $b_{k,j}$ changed to their opposite values. If OPT was indeed correct to begin with, then we see the following result for the two possible cases.
 \\ \\
 \centerline{CASE 1}
-\centerline{$\sum_{w=1}^{n} b_{i,w} = r_i =  r_i - b_{i,m} - b_{i,j} + !(b_{i, m}) + !(b_{i, j}) =  (r_i  -1 + 1 = r_i$}
+\centerline{$\sum_{w=1}^{n} b_{i,w} = r_i =  r_i - b_{i,m} - b_{i,j} + !(b_{i, m}) + !(b_{i, j}) =  r_i - 0 
 
 
 
@@ -173,19 +173,17 @@ Let the output of OPT' on I equal B with the values of $b_{i,j}$, $b_{i, m}$, an
 \leavevmode
 \textbf{(a)} 
 \\
-\textbf{Input:} A set of $n$ jobs $j$ -- each job is described by an integer release time and deadline ($r_j$, $d_j$) -- each of which must run for one unit of time. Additionally at each time interval t $\in$ [0, $T$), the machine may be ON or OFF at the time interval ($t$, $t+1$). Let $T$ equal the maximum deadline -- max($d_j$) for all $j$.
+\textbf{Input:} A set of $n$ jobs $j$ -- each job is described by an integer release time and deadline ($r_j$, $d_j$) -- each of which must run for one unit of time. Additionally at each time interval t $\in$ [0, $T$), the machine may be ON or OFF at the time interval ($t$, $t+1$). Let $T$ equal the maximum deadline -- max($d_j$) for all $j$
 \\ \\
 \textbf{Output:} Whether or not a feasible sequence was found in which every job ran for one unit of time at some interval after $r_j$ and before $d_j$.
 \\ \\
 \textbf{Algorithm:} Run the job with the earliest deadline first:
 \begin{algorithmic}
-\While{$t$ $\textless$ $T$}
-	\If{the machine is on at time $t$}
-		\For{each job that has not yet run \&\& is released -- ($r_j$ $\leq$ $t$)}
-			\State Run the job with the earliest deadline -- (min($d_j$) for all $j$) -- (break ties arbitrarily)
-		\EndFor
-	\EndIf
-\EndWhile
+\If{the machine is on at time $t$}
+	\For{each job that has not yet run \&\& is released -- ($r_j$ $\leq$ $t$)}
+		\State Run the job with the earliest deadline -- (min($d_j$) for all $j$) -- (break ties arbitrarily)
+	\EndFor
+\EndIf
 \\
 \If{all jobs in the input $I$ have run by time $T$}
 	\State return FEASIBLE
@@ -202,30 +200,11 @@ Let the output of OPT' on I equal B with the values of $b_{i,j}$, $b_{i, m}$, an
 Let EDF(I) = \{$j_{\alpha(1)}$, ..., $j_{\alpha(n)}$\} be the output of EDF on input I
 \\ \& OPT(I) = \{$j_{\beta(1)}$, ..., $j_{\beta(n)}$\} be the optimal solution which agrees with EDF(I) for the most number of steps
 \\ \\ Let $k$ be the first point of disagreement between EDF and OPT
-\\ \\ \\ \\ \\ \\ \\
-Let OPT' equal opt with $j_{\alpha(k)}$ and $j_{\beta(k)}$ switched.
-\\ \\ \\ \\ \\ \\ \\ \\ \\ \\
-Clearly OPT' is more like EDF. In order to prove that it still produces an acceptable output, consider the following four cases. Also note that by the definition of EDF, we know that the deadline $d_{\alpha(k)}$ is earlier than (or tied with) the deadline $d_{\beta(k)}$ -- $d_{\alpha(k)}$ $\leq$ $d_{\beta(k)}$
+\\ \\ \\ \\ \\ \\ \\ \\ \\
+By the definition of EDF, we know that the deadline for $j_k$ in EDF(I) is earlier than (or tied with) the deadline of $j_k$ in OPT(I) -- $d_{\alpha(k)}$ $\leq$ $d_{\beta(k)}$
 \\ \\
-\centerline{\textbf{Case 1: Both EDF and OPT determined the solution was FEASIBLE}}
-\\ \\
-Since we know $d_{\alpha(k)}$ $\leq$ $d_{\beta(k)}$, we know that $d_{\beta(k)}$ is after the scheduled $j_{\alpha(k)}$ in OPT. Therefore we can easily switch $j_{\alpha(k)}$ and $j_{\beta(k)}$ and both jobs will complete before their deadlines. Therefore an acceptable solution is still produced.
-\\ \\ \\
-\centerline{\textbf{Case 2: Both EDF and OPT determined the solution was NOT FEASIBLE}}
-\\ \\
-Since a NOT FEASIBLE solution was determined, we know that some job was unable to be scheduled before its deadline. Therefore switching $j_{\beta(k)}$ and $j_{\alpha(k)}$ (or scheduling one and not the other) should have no affect on the final outcome and an acceptable solution is still produced. 
-\\ \\ \\
-\centerline{\textbf{Case 3: EDF determined FEASIBLE but OPT determined NOT FEASIBLE}}
-\\ \\
-This state is impossible by the definition of OPT. If EDF was able to create a FEASIBLE solution, then OPT is guaranteed to also produce a FEASIBLE solution, by definition.
-\\ \\ \\
-\centerline{\textbf{Case 4: EDF determined NOT FEASIBLE but OPT determined FEASIBLE}}
-\\ \\
-In this case, we can do the switch using what we know about the deadlines ($d_{\alpha(k)}$ $\leq$ $d_{\beta(k)}$) and OPT' still produces an acceptable solution.
-\\ \\ \\ \\
-All in all, OPT' always produces an acceptable solution.
-\\ \\
-$\therefore$ We have reached a contradiction because OPT' is more like EDF for one more step even though OPT was defined as being most like EDF. 
+Let 
+
 \end{homeworkProblem}
 
 
@@ -239,36 +218,15 @@ $\therefore$ We have reached a contradiction because OPT' is more like EDF for o
 \leavevmode
 \textbf{(b)} 
 \\
-\textbf{Input:} A set of $n$ jobs $j$ -- each job is described by an integer release time and deadline ($r_j$, $d_j$) -- each of which must run for one unit of time. Let $T$ equal the maximum deadline -- max($d_j$) for all $j$. Additionally, a positive integer $L$ is given which defines the length of an ON state.
+\textbf{Input:}
+\\
+\textbf{Output:} 
 \\ \\
-\textbf{Output:} The minimum number $k$ times that the machine must turn ON in order to feasibly schedule all jobs within the intervals of length $L$.
+\textbf{Algorithm:} 
 \\ \\
-\textbf{Algorithm:} While there are schedulable jobs in the input set, place an interval of length $L$ at the leftmost point $t$ where that interval ($t + L$) contains the most schedulable jobs $\leq$ $L$. Then schedule jobs within that interval according to the earliest deadline first.
-\\(Note that a schedulable job is one that has been released and is not past it's deadline.)
-\\ \\
-\textbf{Theorem:} The described "left most" algorithm LM is correct.
-\\ \\
-\textbf{Proof:} Assume to reach a contradiction that there exists an input I on which LM produces and unacceptable output. 
-\\ \\
-Let $INT_1$, ..., $INT_n$ be the created intervals of length $L$ starting at $t_1$, ..., $t_n$
-\\ \& LM(I) = \{$INT_{\alpha(1)}$, ..., $INT_{\alpha(n)}$\} be the output of LM on input I
-\\ \& OPT(I)= \{$INT_{\beta(1)}$, ..., $INT_{\beta(n)}$\}  be the optimal solution which agrees with LM the most number of steps
-\\ \& $k$ be the first point of disagreement between LM and OPT
-\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
-Note: we know that $t_{\alpha(k)}$ $\textless$ $t_{\beta(k)}$, by the definition of LM
-\\ \\
-Let OPT' equal OPT with $INT_{\beta{k}}$ shifted to the left such that it starts at $t_{\alpha(k)}$ and is, of course, of length $L$ -- and therefore becomes (indistinguishable from) $INT_{\alpha(k)}$.
-\\ \\
-Clearly OPT' is more like LM for one additional interval.
-\\ \\
-A few observations about the shift:
-\\ 1) OPT clearly hasn't missed scheduling a job, by the definition of OPT (therefore the space from $t_{\alpha(k)}$ to $t_{\beta(k)}$ is void of a completely unscheduled job in OPT) 
-\\ \\ 2) OPT has not created an interval that scheduled more jobs than $INT_{\alpha(k)}$, by the definition of LM
-\\ \\
-Thus, shifting $INT_{\beta(k)}$ to the left so that it becomes $INT_{\alpha(k)}$ in OPT' will still produce an acceptable output.
-\\ \\
-$\therefore$ We have reached a contradiction because OPT' agrees with LM for one additional step despite OPT being defined as agreeing with LM for the most number of steps.
-
+\textbf{Theorem:} 
+\\
+\textbf{Proof:} 
 \end{homeworkProblem}
 
 
