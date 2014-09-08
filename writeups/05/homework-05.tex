@@ -152,12 +152,23 @@ Consider case 1. Since $b_{i,j} = 1$ and $(\sum_{w=1}^{n} b_{i,w})= r_i$ we know
 \\ \\ 
 By the same logic, for case 2 we can deduce that there is some column ($m$) in B's $i^{th}$ row where $b_{i,m} = 1$ and $a_{i,m} = 0$; likewise, there is some row $k$ in B's $j^{th}$ column where $b_{k, j} =1$ and $a_{k,j} = 0$. 
 \\ \\
-Let the output of OPT' on I equal B with the values of $b_{i,j}$, $b_{i, m}$, and $b_{k,j}$ changed to their opposite values. If OPT was indeed correct to begin with, then we see the following result for the two possible cases.
+Let OPT'(I) = OPT(I) = B with the values of $b_{i,j}$, $b_{i, m}$, and $b_{k,j}$ changed to their opposite values.
 \\ \\
-\centerline{CASE 1}
-\centerline{$\sum_{w=1}^{n} b_{i,w} = r_i =  r_i - b_{i,m} - b_{i,j} + !(b_{i, m}) + !(b_{i, j}) =  r_i - 0 
-
-
+\centerline{CASE 1} \\ \\
+\centerline{$\sum_{w=1}^{n} b_{i,w} = r_i =  r_i - b_{i,j} - b_{i,m} + !(b_{i, m}) + !(b_{i, j}) =  r_i - 1 - 0 + 0 + 1 = r_i$}
+\\ \\
+\centerline{$\sum_{h=1}^{n} b_{h,j} = c_j =  c_j - b_{i,j} - b_{k,j} + !(b_{k, j}) + !(b_{i, j}) =  c_j - 1 - 0 + 0 + 1 = c_j$}
+\\ \\ \\ \\
+\centerline{CASE 2} \\ \\
+\centerline{$\sum_{w=1}^{n} b_{i,w} = r_i =  r_i - b_{i,j} - b_{i,m} + !(b_{i, m}) + !(b_{i, j}) =  r_i - 0 - 1 + 1 + 0 = r_i$}
+\\ \\
+\centerline{$\sum_{h=1}^{n} b_{h, j} = c_j =  c_j - b_{i,j} - b_{k,j} + !(b_{k, j}) + !(b_{i, j}) =  c_j - 0 - 1 + 1 + 0 = c_j$}
+\\ \\
+We have thus demonstrated that, if OPT was indeed correct to begin with (ie, respective sums equaled $c_j$ ad $r_i$), these modifications do not effect the correctness of OPT'. It is also evident that OPT' is more like G for one additional step. 
+\\ \\
+We now have that OPT is not the correct solution which agrees with G for the most number of steps, and we have a contradiction. 
+\\ \\
+$\therefore$ G is correct
 
 
 \end{homeworkProblem}
