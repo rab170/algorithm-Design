@@ -238,10 +238,12 @@ $\therefore$ We have reached a contradiction because OPT' is more like EDF for o
 \begin{homeworkProblem}
 \centerline{\textbf{Problem 1}}
 \leavevmode
-\textbf{(a)} 
-\\
+\textbf{(a)}
 \begin{algorithmic}
 \Procedure{T}{int $n$}
+	\If{$n < 0$}
+		\State \Return -1
+	\EndIf
 	\If{n == 0 or n==1}
   		\State return 2;
 	\EndIf
@@ -253,12 +255,14 @@ $\therefore$ We have reached a contradiction because OPT' is more like EDF for o
 	\State \Return SUM
 \EndProcedure
 \end{algorithmic}
-\leavevmode
+Recursive algorithms which only reduce the input by a constant size each call are inherently exponential. Here, we have an algorithm which does this (ie, only decreases the input size by a constant size each call), and additionally creates this many more recursive calls at each point in the recursion. Clearly, it is exponential. \\
 \\
-\textbf{(b)} 
-\\
+\textbf{(b)}
 \begin{algorithmic}
 \Procedure{T}{int $n$}
+	\If{$n < 0$}
+		\State \Return -1
+	\EndIf
 	\If{n == 0 or n==1}
   		\State return 2;
 	\EndIf
@@ -274,14 +278,16 @@ $\therefore$ We have reached a contradiction because OPT' is more like EDF for o
 	\State \Return T[n]
 \EndProcedure
 \end{algorithmic}
-\leavevmode
+Clearly this algorithm is $\mathcal{O}(n^2)$. This is achieved by starting at the base $(n=0, n=1)$ and computing the the next value based on the sum of all the previous; as opposed to starting at the top and recomputing everything at each step closer to the base. \\
 \\
 \textbf{(c)} 
-\\
 \begin{algorithmic}
 \Procedure{T}{int $n$}
+	\If{$n < 0$}
+		\State \Return -1
+	\EndIf
 	\If{n == 0 or n==1}
-  		\State return 2;
+  		\State \Return 2;
 	\EndIf
 	
 	\State T[0] = 2, T[1] = 2, T[2] = 4
@@ -291,8 +297,7 @@ $\therefore$ We have reached a contradiction because OPT' is more like EDF for o
 	\State \Return T[n]
 \EndProcedure
 \end{algorithmic}
-\leavevmode
-\\
+Clearly this algorithm is $\mathcal{O}(n)$.
 
 \end{homeworkProblem}
 
