@@ -176,6 +176,8 @@ $\therefore$ G is correct
 
 
 \pagebreak
+\begin{homeworkProblem}
+\end{homeworkProblem}
 \pagebreak
 
 
@@ -212,8 +214,29 @@ $\therefore$ G is correct
 Let EDF(I) = \{$j_{\alpha(1)}$, ..., $j_{\alpha(n)}$\} be the output of EDF on input I
 \\ \& OPT(I) = \{$j_{\beta(1)}$, ..., $j_{\beta(n)}$\} be the optimal solution which agrees with EDF(I) for the most number of steps
 \\ \\ Let $k$ be the first point of disagreement between EDF and OPT
+<<<<<<< HEAD
+\\ \\ \\ \\ \\ \\ \\
+Let OPT' equal opt with $j_{\alpha(k)}$ and $j_{\beta(k)}$ switched.
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\
+Clearly OPT' is more like EDF. In order to prove that it still produces an acceptable output, consider the following four cases. Also note that by the definition of EDF, we know that the deadline $d_{\alpha(k)}$ is earlier than (or tied with) the deadline $d_{\beta(k)}$. Stated another way: $d_{\alpha(k)}$ $\leq$ $d_{\beta(k)}$
+\\ \\
+\centerline{\textbf{Case 1: Both EDF and OPT determined the solution was FEASIBLE}}
+\\ \\
+Since we know $d_{\alpha(k)}$ $\leq$ $d_{\beta(k)}$, we know that $d_{\beta(k)}$ is after the scheduled $j_{\alpha(k)}$ in OPT. Therefore we can easily switch $j_{\alpha(k)}$ and $j_{\beta(k)}$ and both jobs will complete before their deadlines. Therefore an acceptable solution is still produced.
+\\ \\ \\
+\centerline{\textbf{Case 2: Both EDF and OPT determined the solution was NOT FEASIBLE}}
+\\ \\
+Since a NOT FEASIBLE solution was determined, we know that some job was unable to be scheduled before its deadline. Therefore switching $j_{\beta(k)}$ and $j_{\alpha(k)}$ (or scheduling one and not the other) should have no affect on the final outcome and an acceptable solution is still produced. 
+\\ \\ \\
+\centerline{\textbf{Case 3: EDF determined FEASIBLE but OPT determined NOT FEASIBLE}}
+\\ \\
+This state is impossible by the definition of OPT. If EDF was able to create a FEASIBLE solution, then OPT is guaranteed to also produce a FEASIBLE solution, by definition.
+\\ \\ \\
+\centerline{\textbf{Case 4: EDF determined NOT FEASIBLE but OPT determined FEASIBLE}}
+=======
 \\ \\ \\ \\ \\ \\ \\ \\ \\
 By the definition of EDF, we know that the deadline for $j_k$ in EDF(I) is earlier than (or tied with) the deadline of $j_k$ in OPT(I) -- $d_{\alpha(k)}$ $\leq$ $d_{\beta(k)}$
+>>>>>>> 4d9a598012475e5dcd010334a772dba3f7331643
 \\ \\
 Let 
 
