@@ -133,14 +133,32 @@
 \centerline{\textbf{Problem 16}}
 \leavevmode
 \\
-\textbf{(a)} 
-\textbf{Input:}
-\\
-\textbf{Output:} 
-\\
-\textbf{Theorem:} 
+\textbf{(a)} \\
+\textbf{Input: A linear graph of $n$ nodes (ie, a linked list of length n) and set of $k$ packets $p_1, p_2, ..., p_k$ where each packet $p_i =(A, r_p, s_p, t_p)$ where $A$ is the packet name, $r_p$ is the packet release time, $s_p$ is the packet start node, and $t_p$ is the packet's target node.}
 \\ \\
-\textbf{Proof:} 
+\textbf{Output: The order of "sent" packets for each of the $n$ nodes such that the maximum time that a packet takes to leave the network is minimized (ie, the network is cleared of all packets as quickly as possible).} 
+\\ \\
+\textbf{Algorithm: For for the $i^{th}$ node, take the the $j^{th}$ packet from its packet-list such that the number of remaining nodes $NR_j = t_{pj} - i$ is the maximum of all packets in the node's packet-list. Put $p_j$ in $i$'s "sent" list for this time-step, and move $p_j$ to node $i+1$.}
+\\ \\
+\textbf{Proof: The given "Most Remaining Nodes First" (MRNF) algorithm is correct.} 
+\\ \\
+Suppose for the sake of reaching a contradiction that there exists some input I on which MNRF produces unacceptable output. Let MNRF(I) be the output of MNRF on this input, and let OPT(I) be the output of some optimal algorithm which agrees with MNRF for the most number of steps. 
+\\ \\ 
+Consider a given point where the output of MNRF disagrees with that of OPT.  We define a "disagreement" to be any point where OPT sends a packet from a given node that violates the "Most Remaining Nodes First" principle. Note, however, that the only important differences are those which occur on the last packet to leave the network (in time), since we are concerned solely with the minimization of this value. Thus, consider this point to be the first disagreement and label this the $k^{th}$ step.
+\\ \\ \\ \\ \\ \\ \\  \\ \\ \\  \\ \\ \\ \\ \\ \\ \\
+Let OPT' be some algorithm such that its output is that of OPT, but where $p_{\alpha k}$ is sent at the point of disagreement instead of $p_{\beta k}$.
+\\ \\ 
+Note that if neither $p_{\beta k}$ or $p_{\alpha k}$ are the last packets to leave the network in the schedule produced by OPT, then this single modification can be made without repercussion.
+
+Now consider the more interesting cases where one of these two packets is the final packet to leave the network according to the schedule of OPT. If $p_{\alpha k} \in OPT$ is the last packet to leave the network, then we have that $MNRF \le OPT$ since $p_{\alpha k}\in MNRF$ is defined to be the last packet to leave the system (ie, both OPT and MNRF have $p_{\alpha k}$ leaving the system last). OPT choosing to hold this packet up can only have detrimental effects on its time in the system. Thus $MNRF \le OPT$.
+\\ \\
+In the case where $p_{\beta k} \in OPT$ is the last packet out the schedule produced by OPT, we have the following two diagrams of the system (one for space, one for time). There are $t_{\alpha k} - t_{\beta k}$ nodes between the exit node of $p_{\alpha k}$ and $p_{\beta k}$, and we know that the exit node of $p_{\alpha k}$ comes later later in the network than that of $p_{\beta k}$ by the definition of $MNRF$. We also know that $p_{\beta k}$ takes longer to leave the network than $p_{\alpha k}$ (and in fact takes the longest time to leave the network). This should never be, since an optimal algorithm would be able to reach $t_{\beta k}$ before $t_{\alpha k}$ as it is closer to the current node.
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
+So in this case $OPT' \ge OPT$ and we can safely make our exchange (or simply raise a contradiction on the definition of OPT).
+\\ \\
+$\therefore$ for all covered cases $OPT \le OPT'$ and $OPT'$ is clearly more similar to $MNRF$ than $OPT$ $\qed$
+
+
 \end{homeworkProblem}
 
 
@@ -149,14 +167,11 @@
 
 
 
-\begin{homeworkProblem}
-\textbf{(b)} 
+\begin{homeworkProblem} 
+\textbf{(b)} \\
+\textbf{Input: A linear graph of 2 nodes (ie, two nodes connected by one edge) and set of $k$ packets $p_1, p_2, ..., p_k$ where each packet $p_i$ consists of $(A, r_p, s_p, t_p)$ where $A$ is the packet name, $r_p$ is the packet release time, $s_p$ is the packet start node, and $t_p$ is the packet's target node.}
 \\
-\textbf{Input:}
-\\
-\textbf{Output:} 
-\\ \\
-\textbf{Algorithm:}
+\textbf{Output: The order of "sent" packets for each of the $n$ nodes such that the network is cleared of all packets as quickly as possible.} 
 \\ \\
 \textbf{Theorem:} 
 \\
