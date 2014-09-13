@@ -160,45 +160,17 @@ $\therefore$ for all covered cases $OPT \le OPT'$ and $OPT'$ is clearly more sim
 
 
 \end{homeworkProblem}
-
-
-
 \pagebreak
-
-
-
-\begin{homeworkProblem} 
-\textbf{(b)} \\
-\textbf{Input: A linear graph of 2 nodes (ie, two nodes connected by one edge) and set of $k$ packets $p_1, p_2, ..., p_k$ where each packet $p_i$ consists of $(A, r_p, s_p, t_p)$ where $A$ is the packet name, $r_p$ is the packet release time, $s_p$ is the packet start node, and $t_p$ is the packet's target node.}
-\\
-\textbf{Output: The order of "sent" packets for each of the $n$ nodes such that the network is cleared of all packets as quickly as possible.} 
-\\ \\
-\textbf{Theorem:} 
-\\
-\textbf{Proof:} 
-\end{homeworkProblem}
-
-
-
-\pagebreak
-
-
 
 \begin{homeworkProblem}
-\textbf{(c)} 
+\centerline{\textbf{Problem 16}}
+\leavevmode
 \\
-\textbf{Input:}
+\textbf{(b)}  
 \\
-\textbf{Output:} 
-\\ \\
-\textbf{Algorithm:}
-\\ \\
-\textbf{Theorem:} 
+For this problem, a first-in first-out (FIFO) algorithm would be optimal. That is, we can queue up the packets as they are released and move them along the edge in the order they are queued. Ties would be broken arbitrarily.
 \\
-\textbf{Proof:} 
 \end{homeworkProblem}
-
-
 
 \pagebreak
 
@@ -208,9 +180,38 @@ $\therefore$ for all covered cases $OPT \le OPT'$ and $OPT'$ is clearly more sim
 \centerline{\textbf{Problem 2}}
 \leavevmode
 \end{homeworkProblem}
+The following iterative, array-based, bottom-up algorithm will return the longest sequence $S$ that is a subsequence of three strings $A$, $B$, and $C$ in polynomial ($n^3$) time.
+\\ 
+\begin{verbatim}
+string x, y, z, result = ""
+string LCS[A.length][B.length][C.length] = "" // Initialize to empty strings
 
+// Traverse from 1 to size length (leave all a=0, b=0, c=0 as empty strings)
+for a = 1 to A.length:
+    for b = 1 to B.length:
+        for c = 1 to C.length:
+        
+            if A[a-1] == B[b-1] == C[c-1]: // Access the strings from 0 to length-1
+                LCS[a][b][c] = LCS[a-1][b-1][c-1] + A[a-1] // Add the character to the solution
+                
+                if LCS[a][b][c].length > result.length: // Store iff longest substring
+                    result = LCS[a][b][c]
+            else:
+                x = LCS[a-1][b][c]
+                y = LCS[a][b-1][c]
+                z = LCS[a][b][c-1]
+		
+                // Find the maximum substring amongst x, y, and z and add it to the solution	
+                if x.length > y.length && x.length > z.length:
+                    LCS[a][b][c] = x
+                elif y.length > x.length && y.length > z.length:
+                    LCS[a][b][c] = y
+                else:
+                    LCS[a][b][c] = z // All equal or z.length is greatest
 
+return result
 
+\end{verbatim}
 \pagebreak
 
 
@@ -218,11 +219,23 @@ $\therefore$ for all covered cases $OPT \le OPT'$ and $OPT'$ is clearly more sim
 \begin{homeworkProblem}
 \centerline{\textbf{Problem 3}}
 \leavevmode
+The following iterative, array-based, bottom-up algorithm will compute a table for finding the shortest common super-sequence of two strings $A$ and $B$.
+\\ 
+\begin{verbatim}
+SCSS[A.length][B.length] = min(A.length, B.length) // Initialize to shortest string size
+
+for a = 1 to A.length:
+    for b = 1 to B.length:
+        if A[a-1] == B[b-1]: // Access strings from 0 to length-1
+            SCSS[a][b] = SCSS[a-1][b-1] - 1
+        else:
+            SCSS[a][b] = min( SCSS[a-1][b], SCSS[a][b-1] )
+\end{verbatim}
 \textbf{(a)} 
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
+\textbf{(b)} The length of the SCSS will be the smallest number in the table plus min(A.length, B.length).
 \\ \\
-\textbf{(b)}
-\\ \\
-\textbf{(c)} 
+\textbf{(c)} Unfortunately, the created algorithm doesn't seem to be correct -- as a backwards trace is confusing and inconsistent. However, we were hoping for something along the lines of: when the letters are unequal, travel towards min( vertical up, horizontal left ) and write the letter depending on the direction / when the letters are equal travel diagonally and write the letter. 
 \\ \\
 \end{homeworkProblem}
 
