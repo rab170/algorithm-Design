@@ -129,9 +129,56 @@
 \begin{homeworkProblem}
 \centerline{\textbf{Problem 9}}
 \leavevmode
-\textbf{Input:}
-\\ \\ \textbf{Output:} 
-\\ \\ \textbf{Algorithm:} 
+\textbf{Input:} Consists of $n$ keys $K_1, ..., K_n$ with $K_1$ $\textless$ $K_2$ $\textless$ ... $K_n$ and associated probabilities $p_1, ..., p_n$.
+\\ \\ \textbf{Output:} AVL tree for these keys that minimizes the expected depth of a key.
+\\ \\ \textbf{Algorithm:} This algorithm is very similar to the MWBST with strengthening due to the depth requirements of the AVL tree constraints. It uses three tables including an optimal probability (PROB), max depth (DEPTH), and an optimal root (ROOT) of the subtrees. The algorithm is detailed and explained below:
+\\ 
+\begin{algorithmic}[1]
+\State // Initialize three tables and an empty acceptable root list
+\For{i = 1 to $n$}
+	\State PROB[ i ][ i ] = $p_i$
+	\State PROB[ i ][ i - 1 ] = PROB[ i + 1 ][ i ] = 0
+	\State DEPTH[ i ][ i ] = 1
+	\State DEPTH[ i ][ i - 1 ] = DEPTH[ i + 1 ][ i ] = 0
+	\State ROOT[ i ][ i ] = $K_i$
+	\State acceptableRoots = \{\}
+\EndFor
+\\
+\State // Iterate through to build tables from bottom to top and left to right
+\For{a = $n$ - 1 to 1}
+	\For{b = a + 1 to $n$}
+		\\
+		\State // Find acceptable roots based on AVL depth constraints
+		\For{$\alpha$ = a to b}
+			\If{abs(DEPTH[ a ][ $\alpha$ - 1 ] - DEPTH[ $\alpha$ + 1 ][ b ]) $\leq$ 1}
+				\State acceptableRoots.add( $\alpha$ )
+			\EndIf
+		\EndFor
+		\\
+		\State // Find the MWBST of the acceptable roots using the PROB table
+		\State PROB[ a ][ b ] = $\min\limits_{\forall \alpha \in acceptableRoots}$( PROB[ a ][ $\alpha$ - 1 ] + PROB[ $\alpha$ + 1 ][ b ] ) + $\sum\limits_{k=a}^b p_k$ 
+		\\
+		\State // Update other tables based on the optimal root
+		\State R = the chosen optimal $\alpha$ from the min function on $L20$
+		\State ROOT[ a ][ b ] = $K_{R}$
+		\State DEPTH[ a ][ b ] = max( DEPTH[ a ][ R - 1 ], DEPTH[ R + 1 ][ b ] ) + 1
+		\\
+		\State // Clear acceptable root list
+		\State acceptableRoots = \{\}
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\
+$L2-L8$: Initialize three arrays for keeping track of information about the subtrees from a to b: an optimal probability PROB, a reported max depth DEPTH, and the optimal root ROOT. Also, create an empty list for storing the acceptable roots (which are a subset of all nodes from a to b based on the AVL balancing constraints).
+\\ \\
+$L11-L12$: Iterate through the arrays from the bottom up and from left to right. 
+\\ \\ 
+$L15-L17$: Create a list of acceptable roots based on the balancing factor constraints of an AVL tree. The absolute value of the total depth of the left subtree minus the total depth of the right subtree is bounded by 1 (as the balancing factor can have a value of -1, 0, or 1). All possible roots which adhere to this constraint are added to the acceptableRoots list.
+\\ \\
+$L20$: Update the PROB array based on the minimum sum of the left subtree and the right subtree for each possible acceptable root. This min function should also set $R$ on $L23$ (which is the optimal root $\alpha$ chosen by min). Add in the summation of all probabilities from a to b. This is very similar to the MWBST algorithm which we covered in class. The main difference is that min functions only on a subset of values from a to b (the possible acceptable roots). Min still returns the "weight" (or in this case, "probability") for the tree a to b. Additionally, min remembers which choice it made for the optimal root and uses that information to set $R$ from $L23$.
+\\ \\ 
+$L24-28$: This is where we update the ROOT and DEPTH array based on the chosen optimal root $\alpha$. We consider the maximum depth of each subtree and add one for the new optimal root $\alpha$. Finally, we clear the acceptableRoots list so that it is empty for the next iteration.
 \end{homeworkProblem}
 \pagebreak
 
@@ -147,9 +194,48 @@
 \begin{homeworkProblem}
 \centerline{\textbf{Problem 13}}
 \leavevmode
-\textbf{Input:}
-\\ \\ \textbf{Output:} 
-\\ \\ \textbf{Algorithm:} 
+\\
+\textbf{Input:} Positive integers $v_1, ..., v_n$, with $L$ = $\sum\limits_{i=1}^n v_i$
+\\ \\ \textbf{Output:} A solution (if one exists) to $\sum\limits_{i=1}^n (-1)^{x_i} v_i$ where each $x_i$ is either 0 or 1.
+\\ \\ \textbf{Algorithm:} Algorithm "Sum To Zero" (STZ) is detailed and explained below.
+\\ 
+\begin{algorithmic}[1]
+\State // Initialize Table
+\State STZ[ 0 ][ 0 ] = 0
+\\
+\State // Iterate through to build table
+\For{a = 1 to $n$}
+	\For{b = 0 to $L$}
+	\If{STZ[ a - 1 ][ b ] is defined}
+		\State STZ[ a ][ b ] = STZ[ a - 1 ][ b ] - $v_a$ // Left child (subtract)
+		\State STZ[ a ][ b+$v_a$ ] = STZ[ a -1 ][ b ] + $v_a$ // Right child (add)
+	\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\
+\textbf{Pruning Rules:}
+\\
+First, we allow pruning to any sums that are over half of $L$ or under half of -$L$. Put another way, we take the absolute value of the sum and allow pruning to sums greater than half of $L$: 
+\\
+\\ \centerline{1) $|$sum$|$ $\textgreater$ $L$/2}
+\\ \\ 
+Second, we allow pruning to occur on any sums which are the same on the same level, positive or negative. Put another way, we take the absolute value of the sum and allow pruning to sums that are the same on the same level: 
+\\
+\\ \centerline{2) $|$sum$|$ same on same level}
+\\ \\
+\\ \textbf{Explanation of STZ:} The algorithm described above will help us model a binary tree solution as an array using the stated pruning rules. 
+\\
+$L2$: Initialize (0,0) to the value 0 in order to get us started
+\\ \\
+$L5-L6$: The outer loop goes level by level and the inner loop goes solution by solution on each level
+\\ \\
+$L8$: This is the left child in the binary tree, thus we are subtracting the value of that level (equates to $x_i$ = 1). Basically, if you are building the table, we drop the value from straight above to this cell, subtracting the value of this level.
+\\ \\
+$L9$: This is the right child in the binary tree, thus we are adding the value of that level (equates to $x_i$ = 0). Basically, if you are building the table, we drop the value from 1 level above and over by an amount equal to the value of this level, adding the value of this level.
+\\ \\
+If there is a solution, we will find the value 0 on level $n$ and can backtrace to determine the path.
 \end{homeworkProblem}
 \pagebreak
 
