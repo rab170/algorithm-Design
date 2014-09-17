@@ -168,10 +168,13 @@ On line 15 we then choose our preferred cut to be the minimum between $e'_i$ and
 \\
 
 
-As an example of reconstruction, consider the polygon and table above. We start at the index $i=N-1$ and $j=0$. This can be interpreted as looking at the polygon with nodes ranging from $n_1$ to $n_5$ (ie, the whole polygon).
+\textbf{Finding the solution using the table} In general, to find our triangulation, we start at the index $(i,\;j) =(N-1,\;0)$ of CUT. From here, we calculate $e'_i = norm(P[i-1][[j])$ and $e'_j = norm(P[i][j+1])$ (the lengths of the cut edges). For one of these two norm values, we will find $CUT[i][j] - n_i = CUT[i-1][j]$ or $CUT[i][j] - n_j = CUT[i][j+1]$. For the matching case, add the corresponding cut ($e'_i$ or $e'_j$), move to that index $(i,\;j)$, and continue until $CUT[i][j]=0$.
+\\ \\  
+As an example of reconstruction, consider the polygon and table below. This can be interpreted as looking at the polygon with nodes ranging from $n_1$ to $n_5$ (ie, the whole polygon). Per the solution instructions above, consider $CUT[N-1][0] = CUT[4][0] = 7.606$. We calculate $e'_i=norm(P[3],\;P[0])=norm(n_4,\; n_1) = 4.1231$ and $e'_j = norm(P[4],\; P[1]) = norm(n_5,\; n_2) = 4$. Now $P[4][0] - e'_j = P[4][1]$. So we add $e'_j$ to our cut list, increment $j$ and move to $(i,\;j) = (4,\;1)$. Again, we calculate $e'_j$ and $e'_i$, and find $e'_j = norm(n_5,\; n_3) = 3.606$  and $e'_i = norm(n_4,\; n_2)=3.606$. So our last cut is arbitrary and we choose $e'_j$. Thus we have $OUTPUT=\{(n_5,\;n_2), (n_5,\; n_3)\}$ and our polygon is segmented as shown below.
 \\
-
+\
 \begin{table}[h]
+\centering
 \begin{tabular}{lllllll}
   &                        &                               &                               & i                             &                               &                               \\
   &                        & 0                             & 1                             & 2                             & 3                             & 4                             \\ \cline{3-7} 
@@ -183,11 +186,8 @@ j & \multicolumn{1}{l|}{2} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}
 \end{tabular}
 \end{table}
 \leavevmode
-\\
-
-Now consider CUT[i][j]=7.606. To find where we came from to get here, calculate $n_i = norm(P[i-1][[j])$ and $n_j = norm(P[i][j+1]$. For one of these, we will find $CUT[i][j] - n_i = CUT[i-1][j]$ or $CUT[i][j] - n_j = CUT[i][j+1]$. For the matching case, move to that $(i,\;j)$ index and continue until $CUT[i][j]=0$.
-\\ \\ 
-For a visual representation of this process as a graph, see below.
+\\ \\
+For the original tree-based representation of these cuts, please see the binary tree below.
 
 
 
