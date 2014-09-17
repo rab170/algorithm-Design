@@ -129,9 +129,68 @@
 \begin{homeworkProblem}
 \centerline{\textbf{Problem 6}}
 \leavevmode
-\textbf{Input:} Blah Blah
-\\ \\ \textbf{Output:} blah blah
-\\ \\ \textbf{Algorithm:} blah blah
+\textbf{Input:} An array of vertexes $P = [n_1, n_2, ..., n_N]$ such that $n_1$ connect with $n_2$, $n_2$ connects with $n_3$, and so on until $n_N$ connects with $n_1$ to form a polygon. Note that each $n_i$ is an ordered pair of $(x, y)$ coordinates in Cartesian space.
+\\ \\ \textbf{Output:} The triangulation of P into $N-2$ triangles such that the sum of the perimeters of the triangles is minimized. Or, equivalently, that the sum of the cuts to form these triangles is minimized. 
+\\ \\ \textbf{Algorithm:} 
+\leavevmode \\
+\begin{algorithmic}[1]
+	\State $CUT[N][N];$
+	\For {$0 \le i \le N$}	
+		\For {$0 \le j \le N$}
+		\If{$num\_nodes\_from(P[i], P[j]) == 3$}
+			\State $CUT[i][j] = 0$ 
+		\ElsIf{$num\_nodes\_from(P[i], P[j]) < 3$}
+			\State $CUT[i][j] = \infty$
+		\EndIf
+		\EndFor
+	\EndFor
+	\\
+	\For {$0 \le i \le N$}	
+		\For {$N \le j \le 0$}
+			\If {$CUT[i][j] == \infty$ or $CUT[i][j] == 0$}
+				\State continue
+			\EndIf
+			\State $e'_i =norm(P[(i-1)\%N],P[j])$
+			\State $e'_j = norm(P[i], P[(j+1)\%N])$
+			\State $CUT[i][j] = min(CUT[(i-1)\%N][j] + e'_i,\; CUT[i][(j+1)\%N] +e'_j)$
+		\EndFor
+	\EndFor
+\end{algorithmic}
+\leavevmode \\
+At a high level, each $(i,\;j)$ index pair represents a subset of the original polygon, containing only the nodes between P[i] and P[j] (the excluded nodes have been removed to form a "cut" for triangulation).
+\\ \\
+On lines 5 and 7 we see our two base-cases. Both of these depend on the theoretical (but easily implementable) function "$num\_nodes\_from(n_1, n_2)$". This function would find the number of nodes between (and including) $n_1$ and $n_2$ in P. The base-case at line 5 is equivalent to the final step of recursion, where the polygon has been reduced to 3 nodes/edges, and cannot be cut any further. Line 7 refers to illogical states where the polygon is no longer closed (ie, $nodes\le2$).
+\\ \\
+The two lengths on 13 and 14 are the lengths of the cuts that would be made if we excluded node P[i] and P[j], respectively. The only meaningful values in our table are when i and j are $\pm1$ index from each other. Since our input is ordered so that the $i^{th}$ node is connected to the $(i+1)^{th}$ node (and vice-versa), we can think of P[i] and P[j] as members of an edge in this case. This edge can be contained in two triangles: one where P[i] is excluded and P[j] is connected to the node preceding P[i] in P, and one where P[j] is excluded and P[i] is connected with the node following P[j] in P. See diagram below. These two pairs of nodes, again, can be considered to be edges or vectors, and we can compute the norm/magnitude of them. We call these two values $e'_i$ and $e'_j$ and they are the length of our cut.
+\pagebreak
+
+On line 15 we then choose our preferred cut to be the minimum between $e'_i$ and all of its prior cuts and $e'_j$ and all of its prior cuts.
+\\
+
+
+As an example of reconstruction, consider the polygon and table above. We start at the index $i=N-1$ and $j=0$. This can be interpreted as looking at the polygon with nodes ranging from $n_1$ to $n_5$ (ie, the whole polygon).
+\\
+
+\begin{table}[h]
+\begin{tabular}{lllllll}
+  &                        &                               &                               & i                             &                               &                               \\
+  &                        & 0                             & 1                             & 2                             & 3                             & 4                             \\ \cline{3-7} 
+  & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{0}        & \multicolumn{1}{l|}{3.606}    & \multicolumn{1}{l|}{7.606}    \\ \cline{3-7} 
+  & \multicolumn{1}{l|}{1} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{0}        & \multicolumn{1}{l|}{3.606}    \\ \cline{3-7} 
+j & \multicolumn{1}{l|}{2} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{0}        \\ \cline{3-7} 
+  & \multicolumn{1}{l|}{3} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{0}        & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-7} 
+  & \multicolumn{1}{l|}{4} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{0}        & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-7} 
+\end{tabular}
+\end{table}
+\leavevmode
+\\
+
+Now consider CUT[i][j]=7.606. To find where we came from to get here, calculate $n_i = norm(P[i-1][[j])$ and $n_j = norm(P[i][j+1]$. For one of these, we will find $CUT[i][j] - n_i = CUT[i-1][j]$ or $CUT[i][j] - n_j = CUT[i][j+1]$. For the matching case, move to that $(i,\;j)$ index and continue until $CUT[i][j]=0$.
+\\ \\ 
+For a visual representation of this process as a graph, see below.
+
+
+
 \end{homeworkProblem}
 \pagebreak
 
