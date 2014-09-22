@@ -1,0 +1,162 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 17}}
+\leavevmode
+\\
+\textbf{Input: A set $G = \{(t_1, v_1), (t_2, v_2), ..., (t_n,v_n)\}$ of gems with type $t$ equal to either $e$ or $r$ and price $p$  being the integer value of the gem.}
+\\ \\ \textbf{Output: A partition of $G$ into two parts $P$ and $Q$ such that such that each part has the same value, the number of rubies in $P$ is equal to the number of rubies in $Q$, and the number of emeralds in $P$ is equal to the number of emeralds in $Q$.}
+\\ \\
+To solve this problem, we will enumerate all of the possible compositions for the set P. We can exploit the fact that if some $(t_i, v_i)\notin P$ then it must be the case that $(t_i, v_i)\in Q$ since every gem must be in one of our two partition sets. Consider the tree below enumerating all compositions of P (from which one could derive the composition of Q at any given node).
+\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
+\textbf{Purning Rule 1}\\
+If it is ever the case that  $\sum\limits_{v_i\in node} v_i > \frac{L}{2}$ for some node, we know that there is not enough value in the left-over gems to meet our condition for the value of $P$ equaling the value of $Q$.
+\\ \\ \textbf{Pruning Rule 2}\\
+At a given level of our tree, if two nodes have the same number of rubies, the same number of emeralds, and the same total sum then we can prune one of them arbitrarily. For a graphical explanation of this, see the tree above. Also note that if two compositions for the set $P$ have the same value sum ($v_P$), number of emeralds ($E_P$), and the same number of rubies ($R_P$), then the selection for $Q$ is fixed such that $R_Q=R_{level} - R_P$, $E_Q=E_{level}$, $v_Q=v_{level} - v_p$ (where each "level" variable is the total value, rubies, or emeralds being considered up to that level).
+\pagebreak
+\\ \\ \textbf{Algorithm:} \\
+\begin{algorithmic}[1]
+\State T[n][n][n][L]
+\State T[0][0][0][0] = 1
+\For{$i=1$ to $n$}
+	\If {$t_i$ is $r$}
+		\State $r_i = 1$
+		\State $e_i = 0$				
+	\Else
+		\State $r_i = 0$
+		\State $e_i = 1$
+	\EndIf
+	\For{$r=1$ to $n$}
+		\For{$e=1$ to $n$}
+			\For{$v=0$ to $\frac{L}{2}$}
+				\If {$T[i][r][e][v]$ is defined}
+					\State $T[i+1][r][e][v] = 1$
+					\If {$v + v_i < \frac{L}{2}$}
+						\State $T[i+1][r+r_i][e+e_i[v+v_i] = 1$
+					\EndIf
+				\EndIf
+			\EndFor
+		\EndFor
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\
+To reconstruct $P$ from our table, we must first find some $0\le r \le n$ and $0\le r\le n$ such that $T[n][r][e][\frac{L}{2}]$ is defined (if there are multiple, then there is more than one solution). From this index we step back through the array. At a given level we know a) what type of gem we have (boolean values $r_i$ or $e_i$, and b) what its value is $v_{i}$. We look at $T[i-1][r-r_i][e-e_i][v-v_i]$ and $T[i-1][r][e][v]$. If the the origin of our cell is the former, we add $(t_i, v_i)$ to our set $P$ and continue until $i=0$. We then construct $Q$ according to the relative compliment $Q=G \setminus P$.
+\\ \\ \\
+Regarding complexity, we clearly have an algorithm which is $O(\frac{1}{2}n^3L)$ which we consider to be polynomial in $n+L$ since $(n+L)^4 \ge (n+L)^3L \ge n^3L$.
+\end{homeworkProblem}
+\pagebreak
+\end{document}
