@@ -159,4 +159,26 @@ To reconstruct $P$ from our table, we must first find some $0\le r \le n$ and $0
 Regarding complexity, we clearly have an algorithm which is $O(\frac{1}{2}n^3L)$ which we consider to be polynomial in $n+L$ since $(n+L)^4 \ge (n+L)^3L \ge n^3L$.
 \end{homeworkProblem}
 \pagebreak
+\\
+\centerline{\textbf{Problem 19}}
+\leavevmode
+\\ \\
+\textbf{Input: Two sequences $T = t_1, ... , t_n$ and $P = p_1, ... , p_k$ such that $k \le n$, and a positive integer cost $c_i$ associated with each $t_i$}
+\\ \\ \textbf{Output: A subsequence of $T$ that matches $P$ with maximum aggregate cost. That is, find the sequence $i_1 < ... < i_k$ such that for all  $j$, $1 \le j \le k$, we have $t_{i_j} = p_j$ and $\sum \limits_{j=1}^{k} c_{i_j}$ is maximized.}
+\\ \\ \\ \\
+\textbf{a)} 
+\\ \\ Define $RMAC$ to recursively solve the problem stated above. The input parameters will be the length of $T$ ($n$) and the length of $P$ ($k$).
+\\
+\begin{algorithmic}[1]
+\Function{RMAC}{n, k}
+	\If{$n==0$ or $k==0$}
+		\State \Return 0
+	\EndIf
+	\If {$T_n == P_k$}
+		\State \Return $RMAC(n-1,k-1) + c_n$
+	\EndIf
+	\State \Return $\max(RMAC(n-1,\; k),\; RMAC(n,\; k-1))$
+\EndFunction
+\end{algorithmic}
+
 \end{document}
