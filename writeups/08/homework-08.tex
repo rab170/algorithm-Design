@@ -201,9 +201,53 @@ For the original tree-based representation of these cuts, please see the binary 
 \begin{homeworkProblem}
 \centerline{\textbf{Problem 7}}
 \leavevmode
-\textbf{Input:} Blah Blah
-\\ \\ \textbf{Output:} blah blah
-\\ \\ \textbf{Algorithm:} blah blah
+\textbf{Input:} Sequence $S$ of integers (positive, negative, or zero)
+\\ \\ \textbf{Output:} A consecutive sub-sequence with the maximum sum (Max. Consecutive Sum, MCS)
+\\ \\ \textbf{Notes on the Naive Recursive Algorithm:} The naive recursive algorithm would be knowing the $n^{th}$ number and the Maximum Consecutive Sum of the first $n-1$ numbers [MCS($n-1$)]. This is not sufficient information for computing the Maximum Consecutive Sum of the first $n$ numbers [MCS($n$)] because we do not know if MCS($n-1$) is a subsequence next to the $n^{th}$ number. That is, we do not know if the specific number $n-1$ is included in the MCS of the first $n-1$ numbers. This is an important piece of information if we want to compute MCS($n$) because the solution must be $consecutive$. Therefore if we wanted to attempt to include the number $n$ in our solution, the number $n-1$ \textbf{must} be contained in the solution. However, we do not have this information with the naive recursive algorithm.
+\\ \\
+Therefore, when we convert a proper algorithm to the iterative solution, we would be smart to compute both the MCS of the first $n-1$ numbers and also the the MCS of the first $n-1$ numbers with the number $n-1$ included. This way, we can compare MCS($n-1$) to MCS\_with\_n\_minus\_one\_included($n-1$)+$n$. Now we know if including the number $n$ would result in a more optimal solution.
+\\ \\ \textbf{Algorithm:} Here is the iterative, array-based algorithm -- I will explain it below.
+\\
+\begin{algorithmic}[1]
+\For{j=1 to n}
+	\For{k=1 to n}
+		\If{k == 1 or j == 1 or j $\textgreater$ k}
+			\State MCS[k][j] = -$\infty$
+		\Else
+			\State int MCS\_with\_k\_included = $\sum\limits_{a=k-j+1}^k$ $S_a$
+			\State MCS[k][j] = max( MCS[k-1][j], MCS[k][j-1],  MCS\_with\_k\_included )
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\
+This algorithm will help us build a table to find the MCS. Let me explain the algorithm line-by-line.
+\\ \\
+$L1 \& L2$: Let $j$ be the maximum length of the subsequence that is being considered. Let $k$ be the maximum index of input $S$ that is being considered. Let $n$ be the number of items in input $S$. We will start building our table in the upper-left corner and work towards the lower-right corner, going "down" along $k$ rows before changing columns by incrementing $j$.
+\\ \\
+$L3\&L4$: This is basically our initialization for the table. We are doing it within the main loop because it is safe to do so. We want the row k=1, the column j=1, and an upper-right portion of the table to all be initialized to negative infinity. This will ensure that those cells are not seriously considered during a call to max() while we are building the table. Further, a significant upper-right portion of the table just doesn't make sense -- that is the case when $j$ $\textgreater$ $k$. You cannot have a subsequence of length $j$ that is longer than all the numbers up to $S_k$.
+\\ \\
+$L6$: Here we are finding the Maximum Consecutive Sequence which includes the number at $S_k$. Basically, this summation will add $S_{k-1}$ to $S_k$ if the length $j$ is 2. Similarly, it will add $S_{k-2}$, $S_{k-1}$, and $S_k$ together if length $j$ is 3. Et cetera. 
+\\ \\
+$L7$: Finally, our algorithm will apply a value to the current cell based on the maximum of three numbers. Those numbers are the cell to the left, the cell above, and the MCS with $S_k$ included. It looks to the left to see if there is a better MCS of a smaller length. It looks above to see if there is a better MCS at anytime before $S_k$. And finally it looks at the MCS with $S_k$ included to determine the benefit of adding $S_k$ to the solution (of length $j$). This process will continue until we reach MCS[n][n]. From here we will have to determine the solution by tracing through the table.
+\\ \\ \textbf{Finding the solution using the table}: First we start at MCS[n][n] and take note of the number there. This value is the sum of our maximum consecutive sequence -- but we want to know the sequence. Therefore we must trace left and up until we find the last occurrence of our number. That is, we want the smallest possible length $j$ and smallest possible index $k$ which is "connected" to our maximum sum. This tells us the length of the MCS and the last index of $S$ to include. Using this information, we simply add $S_k$, $S_k-1$, ... $S_{k-j+1}$ to the solution and we have our answer! Below is an example input, table building, and finding the solution using the table. 
+\\ \\
+S=\{6, -5, 6, 7, -10, 3\}
+\begin{table}[h]
+\begin{tabular}{llllllll}
+  &                        &                                &                                & j                              &                                &                                &                                \\
+  &                        & 1                              & 2                              & 3                              & 4                              & 5                              & 6                              \\ \cline{3-8} 
+  & \multicolumn{1}{l|}{1} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} \\ \cline{3-8} 
+  & \multicolumn{1}{l|}{2} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{1}         & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} \\ \cline{3-8} 
+k & \multicolumn{1}{l|}{3} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{1}         & \multicolumn{1}{l|}{7}         & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} \\ \cline{3-8} 
+  & \multicolumn{1}{l|}{4} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{13}        & \multicolumn{1}{l|}{13}        & \multicolumn{1}{l|}{14}        & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{-$\infty$} \\ \cline{3-8} 
+  & \multicolumn{1}{l|}{5} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{13}        & \multicolumn{1}{l|}{13}        & \multicolumn{1}{l|}{14}        & \multicolumn{1}{l|}{14}        & \multicolumn{1}{l|}{-$\infty$} \\ \cline{3-8} 
+  & \multicolumn{1}{l|}{6} & \multicolumn{1}{l|}{-$\infty$} & \multicolumn{1}{l|}{13}        & \multicolumn{1}{l|}{13}        & \multicolumn{1}{l|}{14}        & \multicolumn{1}{l|}{14}        & \multicolumn{1}{l|}{14}        \\ \cline{3-8} 
+\end{tabular}
+\end{table}
+\\
+If we follow 14 to the left and up the most, we get $j$=4 and $k$=4. Now we know that the maximum sum consecutive subsequence is of length 4 and it ends at $S_4$. Therefore we add those four numbers from the input to our solution and get the optimal sequence: \{6, -5, 6, 7\}.
 \end{homeworkProblem}
 \pagebreak
 
@@ -214,9 +258,68 @@ For the original tree-based representation of these cuts, please see the binary 
 \begin{homeworkProblem}
 \centerline{\textbf{Problem 8}}
 \leavevmode
-\textbf{Input:} Blah Blah
-\\ \\ \textbf{Output:} blah blah
-\\ \\ \textbf{Algorithm:} blah blah
+\textbf{Input:} Tree $T$ with integer weighted edges (positive, negative, or zero).
+\\ \\ \textbf{Output:} The shortest simple path in $T$, (Shortest Simple Path, SSP).
+\\ \\ \textbf{Algorithm:} Here is the iterative, array-based algorithm. Explanation below.
+\\
+\\
+Note: The input is being interpreted as a set of edges and associated values given sequentially numerated $n$ nodes from 1 to $n$. Example Input: \{$e_{1,2}$ = 5, $e_{1,3} = 10$\} would describe a tree with 3 nodes, with the edge from node-1 to node-2 having a weight of 5 and the edge from node-1 to node-3 having a weight of 10.
+\\
+\begin{algorithmic}[1]
+\For{i=n to 1}
+	\For{j=n to 1}
+		\If{$e_{i,j}$ does not exist or $i$ $\textgreater$ $j$}
+			\State SSP[i][j] = $\infty$
+		\Else
+			\State int min\_in\_col = $\infty$
+			\For{a = j to n}
+				\If{SSP[j][a] $\textless$ min\_in\_col}
+					\State min\_in\_col = SSP[j][a]
+				\EndIf
+			\EndFor
+			\State SSP[i][j] = min( $e_{i,j}$, ($e_{i,j}$ + min\_in\_col) )
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\
+This algorithm will help us build a table to find the SSP. Let me explain the algorithm line-by-line.
+\\ \\
+$L1 \& L2$: We will build the table from the bottom-right to the upper-left -- going "up" along $j$ rows before decrementing the $i$ column. Both $i$ and $j$ represent nodes and $e_{i,j}$ is the edge between node $i$ and node $j$. 
+\\ \\ 
+$L3 \& L4$: Here is the initialization of the table, basically. We are performing it in the main loop because it is safe to do so. If the edge does not exist, we will set that cell to infinity. Note that any node "to" itself will get a value of infinity by this definition. Further the upper right half of the table will get infinity values. Therefore, we are basically creating a diagonal of infinities down the center-diagonal of the table and also throwing out the upper right half. Finally, to reiterate, we are also putting infinity in for any edges that do not exist as we build the table. 
+\\ \\
+$L5$: Else if the edge does exist...
+\\ \\ 
+$L1-L9$: Here we are simply finding the minimum value in a column. The column we are looking in is where $i$=$j$. When we state "for a=j to n", we are simply looking at every value in the column from value j on down (this is an optimization because we know that every value in the column $i$=$j$ from j on up is infinity). So, we are simply trying to find the minimum number in the column $i$=$j$. We do this so we can, essentially, find the SSP of that subtree.
+\\ \\
+$L10$: Here we finally set a value in the cell. This value should be the minimum between two numbers. Those two numbers are the edge itself and the edge plus min\_in\_col (which is the SSP of a subtree). By doing this, we can determine if the descendant subtree plus the edge in consideration is worth adding to the solution or if we should just add the considered edge by itself. Next we will discuss how to find the solution by using the table which we just created.
+\\ \\ \textbf{Finding the solution using the table}: This process is relatively simple. First we find the absolute minimum number on the table and remember that number. Then we add that edge ($e_{i,j}$) to our solution set. Now we go to the column $i$=$j$ and find the minimum number in that column and add $e_{i,j}$ to our solution set. We again goto the column $i$=$j$ and... etc. etc. We continue in this manner while the absolute minimum number is still less than the sum of the edges in the solution set. As soon as they are equal, we stop.
+\\ \\
+More simply, we have an absolute minimum number and each edge we add contributes to that minimum value. We continue to add the edges in the solution set until we have reached our minimum value. Below is an example input tree, the created table, and the trace through the table using the methods described. 
+\\ \\ 
+Tree: \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
+Input: \{$e_{1,2}$=-3, $e_{1,3}$=4, $e_{1,4}$=6, $e_{2,5}$=2, $e_{2,6}$=4, $e_{3,7}$=-2, $e_{4,8}$=-3, $e_{6,9}$=-5, $e_{6,10}$=3\}
+\\ \\
+Table:
+\begin{table}[h]
+\begin{tabular}{llllllllllll}
+  &                         &                               &                               &                               &                               & i                             &                               &                               &                               &                               &                               \\
+  &                         & 1                             & 2                             & 3                             & 4                             & 5                             & 6                             & 7                             & 8                             & 9                             & 10                            \\ \cline{3-12} 
+  & \multicolumn{1}{l|}{1}  & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+  & \multicolumn{1}{l|}{2}  & \multicolumn{1}{l|}{-4}       & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+  & \multicolumn{1}{l|}{3}  & \multicolumn{1}{l|}{2}        & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+  & \multicolumn{1}{l|}{4}  & \multicolumn{1}{l|}{3}        & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+j & \multicolumn{1}{l|}{5}  & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{2}        & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+  & \multicolumn{1}{l|}{6}  & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{-1}       & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+  & \multicolumn{1}{l|}{7}  & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{-2}       & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+  & \multicolumn{1}{l|}{8}  & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{-3}       & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+  & \multicolumn{1}{l|}{9}  & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{-5}       & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+  & \multicolumn{1}{l|}{10} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{3}        & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} & \multicolumn{1}{l|}{$\infty$} \\ \cline{3-12} 
+\end{tabular}
+\end{table}
+\\ \\ Solution: \{$e_{1,2}$, $e_{2,6}$, $e_{6,9}$\}
 \end{homeworkProblem}
 \pagebreak
 

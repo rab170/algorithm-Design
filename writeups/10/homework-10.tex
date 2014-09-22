@@ -125,32 +125,111 @@
 \pagebreak
 
 \begin{homeworkProblem}
-\centerline{\textbf{Problem 10}}
+\centerline{\textbf{Problem 10 (a) Recursive First}}
 \leavevmode
-\textbf{Input:}
-\\ \\ \textbf{Output:} 
-\\ \\ \textbf{Algorithm:} 
+\\
+\textbf{Input:} Collection A of $n$ intervals over the real line sorted in increasing order of their left endpoint.
+\\ \\ \textbf{Output:} Collection C of non-overlapping intervals such that the sum of the lengths of the intervals in C is maximized.
+\\ \\ \textbf{Algorithm:} An algorithm for solving this problem in polynomial time is detailed and described below. The hint asked us to consider what two pieces of information are essential to strengthening the inductive hypothesis. The one was obviously the length of the intervals and the other is knowing the interval's start and end (to determine overlaps). The algorithm below defines intervals in the form of $(start, end)$ where interval $I_k$ starts at $I_k(start)$ and ends at $I_k(end)$.
+\\ \\
+Note: The hint also mentions that we should consider the input in increasing order of their left endpoint ($A_k(start)$). I included this constraint in the definition of the input.
+\\ \\
+This algorithm iteratively creates two arrays, one which stores the last interval in the considered output collection and another which stores the sum of the lengths of the intervals in the considered output collection. These arrays are labelled INT (for last interval) and LEN (for summed lengths). The indexes are the current interval $k$ from the input collection $A$ and the interval length $j$. We are essentially looking to put the "best" last interval into the INT array. Best is defined as being as close to length $j$ as possible (without being longer) and having the left-most right-endpoint $(end)$.
+\\ \\
+\begin{algorithmic}[1]
+\For{k = 1 to n}
+	\For{j = 1 to max($A(end)$)}
+	\\
+		\If{length($A_k$) $\textgreater$ j}
+			\State LEN[ k ][ j ] = max( LEN[ k ][ j -1 ], LEN[ k - 1][ j ] )
+			\State INT[ k ][ j ] = INT[ k ][ j - 1 ] or INT[ k - 1 ][ j ] depending on what max() chose above
+		\Else
+			\State new List = \{\} 
+			\For{p = 1 to j - 1}
+				\State sum = length($A_k$) + LEN[ k ][ p ]
+				\If{( sum $\leq$ j ) and ( INT[ k ][ p ]$(end)$ $\leq$ $A_k(start) )$}
+					\State List.add(sum)
+				\EndIf
+			\EndFor
+			\\
+			\State LEN[ k ][ j ] = $\max\limits_{0 \leq x \textless (List.length)}$( length($A_k$), LEN[ k ][ j - 1 ], LEN[ k - 1 ][ j ], List[ x ] )
+			\State // Break ties in max by choosing the interval with the left-most right-endpoint $(end)$
+			\State INT[ k ][ j ] = the interval chosen by max() above
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\
+$L1-L2$: Build the arrays from top-down and left-to-right. $j$ should traverse a distance equal to the right-most endpoint of all the intervals in the input collection $A$. 
+\\ \\
+$L4-L5$: If the length of the currently considered interval is longer than $j$, then we should set the cell to the max length of the cell above or to the right. Please consider any out-of-bounds scenarios as returning 0 or NULL.
+\\ \\
+$L7$: Otherwise, the length of the currently considered interval ($A_k$) is of length $j$ or shorter.
+\\ \\
+$L8-L12$: Create a bucket ($List$) to store some values in. We want to iterate through the values in LEN of the current row and add in the length of the currently considered interval ($A_k$) in order to sum all of the partial (and possible) output collections. We then check to see if this potential collection is valid before adding the sum of $A_k$ to the $List$. In order for the sum to be valid, it must be of length $j$ or less and it must not have any overlaps between $A_k$ and the other intervals. 
+\\ \\
+$L14-L16$: Here we consider the maximum value of the length of the interval $A_k$ itself, the max length of the cell above, the max length of the cell to the left, and the max length of all possible collections in $List$. We want to break ties by choosing the interval with the left-most right-endpoint. Finally, we want to assign to the INT array the last interval in the possible output collection chosen by max.
+\\ \\
+Obviously, this algorithm takes a few liberties with how it assigns values to the arrays -- however these sort of details would best be saved for the actual implantation of the algorithm. 
+\\ \\ 
+Ultimately, this algorithm provides our maximum sum in the last row, last column of the LEN array. From here, we can reference the last row, last column of the INT array to get our last entry in the output collection $C$. We then follow the intervals from right-to-left in the last column and add all the intervals to $C$ which do not overlap ($A_k(start)$ $\geq$ $A_{k-1...}(end)$).
+\\ \\
+An example (and example backtrace for retrieving the solution) is provided on the next page: 
 \end{homeworkProblem}
 \pagebreak
-
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 10 (a) Example Trace and Solution}}
+\end{homeworkProblem}
+\pagebreak
 
 \begin{homeworkProblem}
-\centerline{\textbf{Problem 14}}
+\centerline{\textbf{Problem 10 (b) Pruning}}
 \leavevmode
-\textbf{Input:}
-\\ \\ \textbf{Output:} 
-\\ \\ \textbf{Algorithm:} 
+
+\textbf{Input:} $n$ intervals $I_1, ..., I_n$ over the real line sorted in increasing order of their left endpoint.
+\\ \\ \textbf{Output:} Collection C of non-overlapping intervals such that the sum of the lengths of the intervals in C is maximized.
+\\ \\ Note: The hint mentions that we should consider the input in increasing order of their left endpoint. I included this constraint in the definition of the input.
+\\ \\ \textbf{Pruning Rules:} \\
+1. Prune any nodes that contain overlapping intervals. These nodes are invalidated by the expectation of the output (and would continue to be invalid in all descendants), thus are safe to prune.
+\\
+2. If two nodes have the same total length at the same level, prune the one that contains the interval with the right-most endpoint (the interval that ends the latest). Any combination of intervals that end earlier, of the same length, would allow for more options without overlapping in the future -- ultimately, anything that could be added to the right-most endpoint interval in the future can be added to the ones we are keeping. Thus they are safe to prune.  
+\\ \\ \textbf{Algorithm:} Algorithm Max. Interval Sum (MIS) is described below.
+\begin{algorithmic}[1]
+\State MIS[ 0 ][ 0 ] = 0
+\\
+\For{a = 0 to n}
+	\For{b = 0 to $I_n(endpoint)$}
+		\If{MIS[ a ][ b ] is defined}
+			\State // Left-hand child
+			\State MIS[ a+1 ][ b ] = max( MIS[ a ][ b ], MIS[ a+1 ][ b ] )
+			\\
+			\State // Right-hand child
+			\If{no overlap between MIS[ a ][ b ] and $I_a$}
+				\State MIS[ a+1 ][ b+length($I_{a+1}$) ] = max(MIS[ a+1 ][ b+length($I_{a+1}$) ], MIS[ a ][ b ]+length($I_{a+1}$))
+			\EndIf
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \textbf{Explanation:}\\
+$L1$: Initialize the array
+\\ \\
+$L3-L4$: Build an array with the levels $a$ and sum lengths $b$. The entire solution will be contained within the bounds from 1 to the right-most endpoint of the intervals.
+\\ \\
+$L5$: If the current cell is defined, then "branch" children off of it.
+\\ \\
+$L7$: The left-hand child, choose the max between the current cell and the cell below. Update the cell below.
+\\ \\ 
+$L10-L11$: L10 is the implementation of the first pruning rule (no overlaps allowed). L11 is the implementation of the second pruning rule. 
+\\ \\
+At the end, we can easily backtrace this problem to find our solution. An example is provided on the next page. 
 \end{homeworkProblem}
+
 \pagebreak
-
-
 \begin{homeworkProblem}
-\centerline{\textbf{Problem 15}}
-\leavevmode
-\textbf{Input:}
-\\ \\ \textbf{Output:} 
-\\ \\ \textbf{Algorithm:} 
+\centerline{\textbf{Problem 10 (b) Example Trace and Solution}}
 \end{homeworkProblem}
-\pagebreak
 
 \end{document}
