@@ -1,0 +1,190 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 18}}
+\leavevmode
+\\
+\textbf{Input:} Ordered list of $n$ words and an ideal line-length $L$. With the length of the $i$th word being $w_i$.
+\\ \\ \textbf{Output:} A layout of lines (none of which can extend beyond $L$) which minimizes the total penalty. Total penalty is defined as the maximum of all line penalties (the line penalty for a line of length $K$ is $L$ - $K$).
+\\ \\ \textbf{Pruning rules:}
+\\1) If any node creates a line longer than $L$, prune it
+\\ 
+\\2) If any nodes at the same level have the same length (therefore the same words on the line), prune all but the minimum total penalty. 
+\\
+\\ \\ \textbf{Algorithm:}
+\\
+\begin{algorithmic}[1]
+\State // Initialize multi-dimensional array of size $n$+1 by $L$+1 to positive infinity 
+\State A = new array($n$+1)($L$+1)
+\State A[ * ][ * ] = $\infty$
+\\
+\For{lvl = 0 to $n$ - 1}
+	\For{t = 1 to $L$}
+		\State // Initialize this levels penalty based on the word by itself on a line
+		\State A[ lvl + 1 ][ $w_{lvl + 1}$ ] = $L$ - $w_{lvl + 1}$
+		\\
+		\State // Set current cell to be current min in row ("left child")
+		\State A[ lvl + 1 ][ t ] = min( A[ lvl + 1 ][ t ], A[ lvl + 1 ][ t - 1 ] )
+		\\
+		\State // Consider if current word was added to the line above ("right child")
+		\If{t - $w_{lvl + 1}$ is in bounds \&\& A[ lvl ][ t - $w_{lvl}$ ] - $w_{lvl + 1}$ $\geq$ 0}
+			\State A[ lvl + 1 ][ t ] = min( A[ lvl + 1 ][ t ], A[ lvl ][ t - $w_{lvl + 1}$ ] - $w_{lvl + 1}$ )
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\
+$L2-L3$: This initializes a multi-dimensional array with indices 0 to $n$ and 0 to $L$ and sets all cells to have a value of positive infinity.
+\\ \\
+$L5-L6$: From top to bottom and left to right
+\\ \\
+$L8$: First, in order to fill out the next line, consider the word for that level. Go to the cell which matches the length of this word and put in the value as if this word were on a line by itself. 
+\\ \\
+$L11$: Now, iterate through each cell in the row and fill in a value based on the minimum between itself and its left neighbor. 
+\\ \\
+$L14-L15$: If we can complete the next operations, lets do them -- note we must be wary of being out of bounds to the left and we also don't want to fill in a value less than 0. At any given cell, we want to consider the minimum between what is already there and what the possible penalty could be if we added this word to the line above. The if statement checks to make sure we would not extend beyond $L$ (otherwise we would be in the less than zero range).
+\\ \\
+\textbf{Backtracing:} This will give us a table where our last-line penalty is in the lower rightmost cell. From here, we can backtrace to find our layout which minimizes the total penalty. In order to do this, we head up a level and back by the length of the word. By doing this we can determine if our word was added to the line above or not. If it was not, simply write the word down as the last line. If it was, continue the process until you have a completed line. Once you have a completed line, head up a level and start in the lower-rightmost cell as if this level was the lowest boundary of the array. This lower-rightmost cell's value is the line penalty for the line we are about to construct. Continue with the instructions until you have all the lines in the layout. An example table and backtrace is provided below.
+\\ \\ \\
+\textbf{Example Input:} "THIS IS A GROUP WORDS", $L$ = 6
+\\
+\begin{table}[h]
+\begin{tabular}{ccccccccccllll}
+    &  &                        &                               &                               &                               & t                             &                               &                               &                                    &  &              &  &                            \\
+    &  &                        &                               &                               &                               &                               &                               &                               &                                    &  &              &  &                            \\
+    &  &                        & 0                             & 1                             & 2                             & 3                             & 4                             & 5                             & 6                                  &  &              &  &                            \\ \cline{4-10}
+    &  & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$}      &  &              &  &                            \\ \cline{4-10}
+    &  & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{2}        & \multicolumn{1}{c|}{2}        & \multicolumn{1}{c|}{2}             &  &              &  &                            \\ \cline{4-10}
+lvl &  & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{4}        & \multicolumn{1}{c|}{4}        & \multicolumn{1}{c|}{4}        & \multicolumn{1}{c|}{4}        & \multicolumn{1}{c|}{\circled{0}} &  & $p_{L1}$ = 0 &  & (can add to line above)    \\ \cline{4-10}
+    &  & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{5}        & \multicolumn{1}{c|}{5}        & \multicolumn{1}{c|}{3}        & \multicolumn{1}{c|}{3}        & \multicolumn{1}{c|}{3}        & \multicolumn{1}{c|}{3}             &  &              &  &                            \\ \cline{4-10}
+    &  & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{1}        & \multicolumn{1}{c|}{\circled{0}} &  & $p_{L2}$ = 0 &  & (can add to line above)    \\ \cline{4-10}
+    &  & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{$\infty$} & \multicolumn{1}{c|}{1}        & \multicolumn{1}{c|}{\circled{1}} &  & $p_{L3}$ = 1 &  & (cannot add to line above) \\ \cline{4-10}
+\end{tabular}
+\end{table}
+\\ \\ \\
+\textbf{Generated Output:} 
+\\($p$ = 0) THIS IS 
+\\($p$ = 0) A GROUP
+\\($p$ = 1) WORDS 
+\\ ($p_{total}$ = 1)
+
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}
