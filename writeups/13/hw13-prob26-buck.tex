@@ -1,0 +1,132 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 26}}
+\leavevmode
+\\
+\textbf{Input:} A two-dimensional array $R$ of non-negative integers and an integer $k$. The value $R_{t,\ p}$ gives the number of users requesting page $p$ at time $t$. The server can broadcast at most $k$ times.
+\\ \\ \textbf{Output:} Pick the $k$ times to broadcast, and the pages to broadcast at those $k$ times, in order to minimize the total time (over all requests) that requests/users have to wait in order to have their requests satisfied.
+\\ \\ \textbf{The Tree:} The tree for this problem will go down level by level based on if pages should broadcast at time $level$. For two pages, $A$ and $B$, we will create a new leaf for A, B, both A and B, and neither A nor B. For three pages, $A$ and $B$ and $C$, we will create a new leaf for A, B, C, A and B, A and C, B and C, all A B and C, and none A B nor C. Thus, for two pages, each node will have a branching factor of 4 -- and for three pages, each node will have a branching factor of 8. We can extend this to say that for $x$ number of pages, the branching factor is $2^x$.
+\\ \\ \textbf{Pruning Rules:} 
+\\ 1) If (at any node) the total number of broadcasts across all pages is greater than $k$, prune that node.
+\\ 2) If total wait time is the same at any two nodes in the same level, keep the node with the fewer total broadcasts across all pages.
+\\ \\ \textbf{Algorithm:} We did not develop a solution to this problem.
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}
