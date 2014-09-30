@@ -1,0 +1,159 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 4}}
+\leavevmode
+\\
+\textbf{Input:} A list of $n$ points in a plane represented by their Cartesian coordinates.
+\\ \\ \textbf{Output:} Collection of roads (as an adjacency list) that minimizes the total length of roads to connect each city.
+\\ \\ \textbf{Goal:} Show by reduction that if you can solve this problem in linear time, then you can sort $n$ numbers in linear time. 
+\\ \\ \textbf{Fact:} Efficient sorting (merge/heap/quick) has a complexity of $\Theta(n*log\ n)$
+\\ \\ \\
+\centerline{\textbf{Sorting $\leq$ MSteinerT}}
+\\ ------------------------------------\\
+Problem Sorting(List A of length $n$)
+\begin{algorithmic}
+\State B = new List
+\State min = A[0]
+\\
+\State // Transform Input
+\For{k=0 to n-1}
+	\State new point = (A[k], 0)
+	\State B.push( point )
+	\If{A[k] $\textless$ min}
+		min = A[k]
+	\EndIf
+\EndFor
+\\
+\State // Call MSteinerT
+\State AdjacencyList C = MSteinerT(B)
+\\
+\State // Transform Output
+\State Starting at $min$, traverse the adjacency list $C$ and output the (now sorted) $x$ values from the cartesian points.
+\end{algorithmic}
+\leavevmode
+------------------------------------\\ \\
+In order to transform the input, all we have to do is create cartesian points from each number in List A. Within this loop we can also find and store the minimum number in the list (in order to reference later). These newly created points will be added to List B and passed into the MSteinerT function. This has a complexity of $\Theta(n)$.
+\\ \\
+In order to transform the output, all we have to do is start at $min$ and follow the "roads" that the adjacency list created. By the correctness of MSteinerT, each road will lead to the next highest value since all points were in a line and all roads must terminate at a point (and cannot cross it). Therefore, we will simply traverse through the adjacency list, outputting the now sorted list of $n$ numbers. This has a complexity of $\Theta(n)$ as well. 
+\\ \\
+Therefore if solving MSteinerT was linear, then we could sort in linear time as well! However since we cannot, solving MSteinerT must take longer than linear time. There is no linear time solution for this problem.
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}
