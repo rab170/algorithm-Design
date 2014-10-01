@@ -1,0 +1,156 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 21}}
+\leavevmode
+\\
+\textbf{Input:}  A set of $n$ points $\{x_1, x_2, ..., x_n\}$ in the Euclidean plane
+\\ \\ \textbf{Output: } A good path $P$ such that the response time $r_i$ for each $x_i$ minimizes the total average response time $\sum \limits_{i=1}^{n} r_i/n$
+\\ \\ \textbf{Pruning Rule(s):}
+\\ 1) If at any level two path nodes end in the same point, prune the one with a shorter total path with a longer total response time
+\\ \\
+Here, we are pruning a tree that is constructed at each level by branching $n - level$ times for each node on that level. We take the current path, and consider every move that can be made from it. 
+\\ \\ \textbf{Algorithm: } The following dynamic programming algorithm will build an $n$ by  $n$ array from left to right, top to bottom. At each index, we store the total response time according to the distance from the last point in the path to the new point being added. When the case of our pruning rule is come across, we keep the minimum of the two values.
+\\ \\
+\begin{algorithmic}[1]
+\State T[n][n];
+\For {L=1 to n}
+	\For {k=1 to n} 
+		\If {$L == 1$} 
+			\State $T[L][\,k\,] = | x_0 - x_k |$
+		\Else
+			\For {b=k to n}
+				\State$d = T[L-l][\,b\,] + |x_k - x_b|$
+				\State $T[L][k] = min(T[L][\,k\,],\;d)$
+			\EndFor
+		\EndIf
+		\If{$L == n$}
+			\State $T[L][\,k\,]+= | x_k - x_0 |$
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\
+L2: Iterate from the top of our conceptual tree to its bottom \\
+L3: At this level, enumerate every branch \\
+L4-L5: Initialization case -- add distance/time from origin to first point \\
+L6-L9: For each branch, enumerate all possible origins and keep the minimum
+L10-L11: Finally, if you are at the bottom level of the tree, add the distance you must travel back to reach the origin
+
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}

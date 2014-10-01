@@ -1,0 +1,151 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 1}} 
+\leavevmode \\
+Let A and B both be $n \times n$ matrices. We construct the following algorithm to multiply A and B by depending on the subproblem of multiplying two upper-triangular matrices ($function\;MP$).
+\\
+\begin{algorithmic}[1]
+\Function{M}{A, B}
+	\State $A_{triangular} =
+		 	 \begin{bmatrix} 		0_{n \times n} 		& 0_{n \times n} 	& 0_{n \times n} \\ 
+								 	0_{n \times n}		& 0_{n \times n} 	& 0_{n \times n} \\
+								 	0_{n \times n} 		& A 				& 0_{n \times n}
+			 \end{bmatrix}$
+			 
+	\State $B_{triangular} = 
+		 	 \begin{bmatrix} 		0_{n \times n} 		& 0_{n \times n} 	& 0_{n \times n} \\ 
+								 	B 					& 0_{n \times n} 	& 0_{n \times n} \\
+								 	0_{n \times n} 		& 0_{n \times n} 	& 0_{n \times n}
+			 \end{bmatrix}$
+	\State $C = MT(A_{triangular}, B_{triangular}) = 
+			 \begin{bmatrix} 		0_{n \times n} 		& 0_{n \times n} 	& 0_{n \times n} \\ 
+								 	0_{n \times n}		& 0_{n \times n} 	& 0_{n \times n} \\
+								 	AB					& 0_{n \times n} 	& 0_{n \times n}
+			 \end{bmatrix}$
+	\State \Return $C\,[\,0 \rightarrow n\,]\,[\,2n \rightarrow 3n\,]$
+\EndFunction
+\end{algorithmic}
+\leavevmode
+\\ \\
+We construct the two upper triangular matrices $A_{triangular}$ and $B_{triangular}$ in $n \times n$ components. Note that each upper-triangular matrix is $3n \times 3n$, and thus has $9n^2$ items to fill. Clearly, this can be done for both matrices in $\Theta(n^2)$ time. 
+\\ \\
+We then calculate the product $C = A_{triangular} \times B_{triangular}$  according to some arbitrary algorithm for computing the product of two triangular matrices (ie, function MT). We then return the "bottom left" sub-matrix of C, and $n \times n$ matrix. Clearly, iterating over and selecting all the elements in an $n \times n$ matrix takes $\Theta(n^2)$ time.
+\\ \\ 
+If MT is then able to compute our matrix product in $\Theta(n^2)$ time, we will have an algorithm to multiply two arbitrary $n \times n$ matrices in $\Theta(n^2)$ time. 
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}
