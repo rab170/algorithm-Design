@@ -142,7 +142,7 @@ Let A and B both be $n \times n$ matrices. We construct the following algorithm 
 \\ \\
 We construct the two upper triangular matrices $A_{triangular}$ and $B_{triangular}$ in $n \times n$ components. Note that each upper-triangular matrix is $3n \times 3n$, and thus has $9n^2$ items to fill. Clearly, this can be done for both matrices in $\Theta(n^2)$ time. 
 \\ \\
-We then calculate the product $C = A_{triangular} \times B_{triangular}$  according to some arbitrary algorithm for computing the product of two triangular matrices (ie, function MT). We then return the "bottom left" sub-matrix of C, and $n \times n$ matrix. Clearly, iterating over and selecting all the elements in an $n \times n$ matrix takes $\Theta(n^2)$ time.
+We then calculate the product $C = A_{triangular} \times B_{triangular}$  according to some arbitrary algorithm for computing the product of two triangular matrices (ie, function MT) and return the "bottom left" sub-matrix of C, an $n \times n$ matrix. Clearly, iterating over and selecting all the elements in an $n \times n$ matrix takes $\Theta(n^2)$ time. Thus, all work "in addition" to the work of MP is $\Theta(n^2)$ time complexity.
 \\ \\ 
 If MT is then able to compute our matrix product in $\Theta(n^2)$ time, we will have an algorithm to multiply two arbitrary $n \times n$ matrices in $\Theta(n^2)$ time. 
 \end{homeworkProblem}
