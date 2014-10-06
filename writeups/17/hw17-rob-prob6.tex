@@ -1,0 +1,204 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 6}}
+\leavevmode
+\\
+\centerline{\textit{Show that if one of the following three problems has a polynomial time algorithm then they all do.}}\\ \\
+\textbf{UISO:}  The input is two undirected graphs G and H. The problem is to determine if the graphs are isomorphic.
+\\ \\ \textbf{DISO:}  The input is two directed graphs G and H. The problem is to determine if the graphs are isomorphic.
+\\ \\ \textbf{DCOUNT:}  The input is two undirected graphs G and H, and an integer k. The problem is to determine if the graphs are isomorphic and all the vertices in each graph have degree k.
+\\ \\ \\
+\centerline{\textbf{UISO $\le$ DISO}}
+\begin{algorithmic}[1]
+\Function{UISO}{G H}
+	\For{e=$v_i$ --- $v_j$ in G} 
+		\State add $v_i \rightarrow v_j$ to G'
+		\State add $v_j \rightarrow v_i$ to G'
+	\EndFor
+	\For{e=$v_i$ --- $v_j$ in H}
+		\State add $v_i \rightarrow v_j$ to H'
+		\State add $v_j \rightarrow v_i$ to H'
+	\EndFor	
+	\State \Return DISO(G', H')
+\EndFunction
+\end{algorithmic}
+\leavevmode
+\\ \\ \\
+\centerline{\textbf{DISO $\le$ UISO}}
+\begin{algorithmic}[1]
+\Function{DISO}{G H}
+	\State Let G' be a graph with no edges and twice as many verticies as G
+	\State Let H' be a graph with no edges and twice as many verticies as H	
+	\State//(One vertex for each in G, as well as a "NULL" vertex for each)
+	\For{e=$[v_i \rightarrow v_j]$ in G} 
+		\If{node G[j] has edge $[v_j \rightarrow v_i]$}
+			\State add $[v_i$ --- $v_j]$ to G' 
+		\Else
+			\State add $[v_i$ --- $v_j]$ to G'\space\space\space\space\space\space\space\space\space\space //undirected edge for $[v_i \rightarrow v_j]$
+			\State add $[v_j$ --- $v_{2|v| - i}]$ to G'\space\space\space //undirected edge for absence of $[v_j \rightarrow v_i]$
+		\EndIf
+	\EndFor
+	\State \Return UISO(G', H')
+\EndFunction
+\pagebreak
+\end{algorithmic}
+
+\centerline{\textbf{UCOUNT $\le$ UISO}}
+\begin{algorithmic}[1]
+\Function{UISO}{G, H, k}
+	\State $deg_k = True$
+	\For{$v_i$ in G} 
+		\If{$deg(v_i) \ne k$}
+			\State $deg_k = False$
+		\EndIf
+	\EndFor
+	\For{$v_i$ in H} 
+		\If{$deg(v_i) \ne k$}
+			\State $deg_k = False$
+		\EndIf
+	\EndFor	
+	\State \Return UISO(G', H') \textbf{and} $deg_k$
+\EndFunction
+\end{algorithmic}
+\leavevmode \\ \\
+\centerline{\textbf{UISO $\le$ UCOUNT}}
+\begin{algorithmic}[1]
+\Function{UISO}{G, H}
+	\State Let G' = G and H' = H
+	\State Let $k$ be the max degree between H and G
+	\For{$v_i$ in G} 
+		\For{n=deg($v_i$) to $k$}  \space\space\space\space //doesnt enter if deg($v_i$) = k
+			\State add $k+1$ nodes to G' and connect them as described below
+			\State connect $v_i$ to the one remaining node with degree $k-1$
+		\EndFor
+	\EndFor
+	\For{$v_i$ in H} 
+		\For{n=deg($v_i$) to $k$} \space\space\space\space //doesnt enter if deg($v_i$) = k
+			\State add $k+1$ nodes to H' and connect them as described below
+			\State connect $v_i$ to the one remaining node with degree $k-1$
+		\EndFor
+	\EndFor	
+	\State \Return UCOUNT(G', H', k)
+\EndFunction
+\end{algorithmic}
+\leavevmode \\
+To create a structure of nodes such that we can add one connection and still satisfy the condition that $degree = k$ for all nodes, we can add $k+1$ vertices and make every possible connection between these $k+1$ nodes. Every vertex in this graph has degree $k$. Now remove an edge between arbitrary vertices $v_i$ and $v_j$. Connect $v_i$ to itself, bringing its degree back to k. Now one edge can be added to $v_j$ and all degree conditions will be satisfied. See a few examples below. This exploitation is used to bring the degree of every node in H and G up to k.
+\\ \\ Note that we can construct this special tree in polynomial time, so this algorithm is a poly-time reduction (as is the case with the others, which are are polynomial reductions by trivial inspection). 
+
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}
