@@ -1,0 +1,164 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 15}}
+\leavevmode
+(4 points) Show by reduction that if the decision version of the SAT-CNF problem has a polynomial
+time algorithm then the decision version of the 3-coloring problem has a polynomial time algorithm.
+\\
+Hint: Given a graph, you need to write a Boolean formula in conjunctive normal form that expresses
+the fact that the graph is 3 colorable.
+\\ \\ \textbf{Theorem:} If SAT-CNF has a polynomial time algorithm, then 3COLOR does as well.
+\\ \\ \centerline{\textbf{3COLOR $\leq$ SAT-CNF}}
+\\ \\\textbf{3COLOR Input:} Graph G
+\\ \\ \textbf{3COLOR Output:} 1 if the vertices of G can be colored with three colors such that no pair of adjacent vertices are colored the same color. 0 otherwise.
+\\
+\\Program 3COLOR( G ):
+\begin{algorithmic}
+\State F = G transformed*
+\State return SAT-CNF( F )
+\end{algorithmic}
+\leavevmode
+\\ \\
+*transformation = We must transform the graph G into a boolean formula F in conjunctive-normal-form (in polynomial time). If the formula F is satisfiable then G can be 3-colored.
+\\ \\
+We must consider each edge and each connection. Let $_1$, $_2$, and $_3$ represent the three colors. Let E and F be edges in the graph G. We will build up a boolean formula in CNF. 
+\\ \\
+Note this boolean equivalency (P $\Rightarrow$ Q $\Leftrightarrow$ $\neg$P $\vee$ Q), it is used to convert the 6 conditionals into disjunctions below. 
+\\
+\begin{algorithmic}
+\For{each edge E}
+	\State ( $E_1$ $\vee$ $E_2$ $\vee$ $E_3$) $\wedge$ \textit{// The edge must be either colored 1, 2, or 3:}
+	\State ( $\neg E_1$ $\vee$ $\neg E_2$ ) $\wedge$ \textit{// If the edge is 1, it cannot be 2}
+	\State ( $\neg E_1$ $\vee$ $\neg E_3$ ) $\wedge$ \textit{// If the edge is 1, it cannot be 3}
+	\State ( $\neg E_2$ $\vee$ $\neg E_3$ ) $\wedge$ \textit{// If the edge is 2, it cannot be 3}
+\EndFor
+\\
+\For{each pair of adjacent edges (E, F)}
+	\State ( $\neg E_1$ $\vee$ $\neg F_1$ ) $\wedge$ \textit{// If E is 1, F cannot be 1}
+	\State ( $\neg E_2$ $\vee$ $\neg F_2$ ) $\wedge$ \textit{// If E is 2, F cannot be 2}
+	\State ( $\neg E_3$ $\vee$ $\neg F_3$ ) $\wedge$ \textit{// If E is 3, F cannot be 3}
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\ \\
+This will convert a graph G into a boolean formula F in polynomial time. Therefore, our theorem is proved.
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}
