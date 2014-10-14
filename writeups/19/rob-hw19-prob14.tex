@@ -1,0 +1,143 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 14}}
+\leavevmode
+\\
+ (2 points) The input to the three coloring problem is a graph G, and the problem is to decide whether
+the vertices of G can be colored with three colors such that no pair of adjacent vertices are colored the
+same color. The input to the four coloring problem is a graph G, and the problem is to decide whether
+the vertices of G can be colored with four colors such that no pair of adjacent vertices are colored the
+same color. Show by reduction that if the four coloring problem has a polynomial time algorithm then
+so does the three coloring problem.
+\\  \\
+\textbf{Input:} A graph G
+\\\textbf{Output:} Satisfiability of a 3-coloring of vertices
+\\ \\ \\
+\textbf{\centerline{3-coloring $\le$ 4-coloring}}
+\begin{algorithmic}[1]
+\Function{3-coloring}{G}
+	\State //Let G' be G with a new vertex, connected to every existing vertex in G	
+	\State $G' = G + (v_{new},\; v_1) + ... + (v_{new},\; v_n)$ 
+	\State \Return{4-COLORING(G')}
+\EndFunction
+\end{algorithmic}
+\leavevmode
+\\ \\
+Now, our new vertex $v_{new}$ must take on on of our 4 colors. Since every vertex in G' is adjacent to $v_{new}$, the remaining graph (equivalent to G), must be colored by the remaining 3 colors. See graph illustrating this below.
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}
