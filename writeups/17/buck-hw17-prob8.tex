@@ -9,14 +9,6 @@
 %   - Author
 %
 
-\newcommand{\hmwkTitle}{Reduction}
-\newcommand{\hmwkProblems}{14, 15, and 16}
-\newcommand{\hmwkDueDate}{Tuesday October 14, 2014}
-\newcommand{\ClassName}{Algorithm Design}
-\newcommand{\ClassNumber}{CS 1510}
-\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
-
-
 
 %
 % Basic Document Settings
@@ -37,6 +29,9 @@
 \usetikzlibrary{automata,positioning}
 
 
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
 \topmargin=-0.45in
 \evensidemargin=0in
 \oddsidemargin=0in
@@ -85,9 +80,6 @@
 %
 
 \pagestyle{fancy}
-\lhead{\ClassNumber\ - \ClassName}
-\chead{\hmwkTitle}
-\rhead{Problems \hmwkProblems}
 \lfoot{\lastxmark}
 \cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
 
@@ -121,6 +113,51 @@
 % 	% 	% 	% 	% 	% 	%
 
 \begin{document}
-\maketitle
 \pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 8}}
+\leavevmode
+(2 points) The input to the Hamiltonian Cycle Problem is an undirected graph G. The problem is
+to find a Hamiltonian cycle, if one exists. A Hamiltonian cycle is a simple cycle that spans G. Show
+that the Hamiltonian cycle problem is self reducible. That it, show that if there is a polynomial time
+algorithm that determines whether a graph has a Hamiltonian cycle, then there is a polynomial time
+algorithm to find Hamiltonian cycles.
+\\ \\
+\textbf{Input:} Undirected graph G
+\\ \\ \textbf{Output:} A Hamiltonian cycle
+\\ \\ \textbf{Theorem:} HC is self reducible 
+\\ \\ \centerline{\textbf{finding a Hamiltonian Cycle $\leq$ deciding if an undirected graph has a Hamiltonian Cycle}}
+\\
+\\Program findHC( $G$ ):
+\begin{algorithmic}[1]
+\If{hasHC( $G$ )}
+	\State x = any node in $G$
+	\State G = G with x visited 
+	\State result = x
+	\\
+	\For{(the number of vertices in $G$) + 1 loops}
+		\For{each $adjacent\ vertex$ to x}
+			\State G' = $G$ with $adjacent\ vertex$ visited
+			\If{hasHC( G' )}
+				\State G = G'
+				\State x = $adjacent\ vertex$
+				\State result += x
+				\State BREAK
+			\EndIf
+		\EndFor
+	\EndFor
+\\
+\Else
+	\State return null
+\EndIf
+\end{algorithmic}
+\leavevmode
+\\ \\
+This algorithm will find a Hamiltonian Cycle in polynomial time if there is a polynomial time algorithm to determine if a graph has a Hamiltonian Cycle. 
+\\ \\
+This algorithm begins by checking if the input has a HC and then picking any node to start at (it then 'visits' this starting node). Then, it will loop enough times to build a solution (number of vertices + 1 because we must end at the starting node). It will then check all nodes adjacent to the starting node and add the first one to the resulting solution if visiting it allows for a HC to exist. It will do the same for the node we just chose, etc. 
+\end{homeworkProblem}
+\pagebreak
+
 \end{document}

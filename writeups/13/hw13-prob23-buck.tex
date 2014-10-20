@@ -1,0 +1,182 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 23}}
+\leavevmode
+\\
+\textbf{Input:} A sequence $R_0,\ ...,\ R_n$ of non-negative integers and an integer $k$. $R_i$ represents the number of users requesting information at time $i$. Integer $k$ represents the number of times information can be broadcasted. If information is broadcasted at some time $t$, the requests of all users who requested information strictly before time $t$ are satisfied.
+\\ \\ \textbf{Output:} The $k$ times to broadcast in order to minimize the total time (over all requests) that users have to wait in order to have their requests satisfied.
+\\ \\ \textbf{Pruning Rules:} 
+\\1) If the number of broadcasts is greater than $k$ at any node, prune that node.
+\\2) If total wait time is the same at any two nodes in the same level, keep the node with the fewer total broadcasts.
+\\ \\ \textbf{Algorithm:} The following algorithm will build an array from top to bottom, left to right. The index $lvl$ refers to each time-step up to the last possible time-step ($n+1$). The index $w$ refers to the total calculated wait time. The value we store in the array is the number of broadcasts.
+\\
+\begin{algorithmic}[1]
+\State max\_possible\_total\_wait = $\sum\limits_{i = 0}^n$ ((($n+1$) - $i$) * $R_i$)
+\State new A[ $n+1$ ][ max\_possible\_total\_wait ] // Initialize new array
+\State A[ * ][ * ] = $\infty$ // Initialize to all positive infinity
+\State A[ 0 ][ 0 ] = 0 // Initialize start state
+\\
+\For{lvl = 0 to $n$+1}
+	\For{w = 0 to max\_possible\_total\_wait}
+		\If{A[ lvl ][ w ] is defined}
+			\State // Left Child
+			\State A[ lvl + 1 ][ w ] = min( A[ lvl + 1][ w ], A[ lvl ][ w ] )
+			\\
+			\State // Create a new last broadcast variable if min chose the latter
+				\If{A[ lvl + 1 ][ w ] == A[ lvl ][ w ]}
+				\State new last\_broadcast$_{lvl+1,\ w}$ = lvl
+			\EndIf
+			\\
+			\State // Right Child
+			\If{A[ lvl ][ w ] + 1 $\leq\ k$}
+				\State computed = w + $\sum\limits_{i = last\_broadcast_{lvl,\ w}}^{lvl}$ (((lvl + 1) - i) * $R_i$)
+				\State A[ lvl + 1 ][ computed ] = min( A[ lvl + 1 ][ computed ], A[ lvl ][ w ] + 1 )
+				\\
+				\State // Create a new last broadcast variable if min chose the latter 
+				\If{A[ lvl + 1 ][ computed ] == A[ lvl ][ w ] + 1}
+					\State new last\_broadcast$_{lvl+1,\ computed}$ = lvl+1
+				\EndIf
+			\EndIf
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\
+$L1$: Determine the maximum possible wait time by only broadcasting at time $n+1$. This would be the absolute worst case scenario as every input is forced to broadcast at $n+1$ so long as $R_n \neq$ 0. However even if $R_n$ = 0, the calculation at L1 will ensure we do not go out of bounds. 
+\\ \\
+$L2-L4$: Initialize the array to all positive infinity of size $n+1$ by the maximum possible total wait. Also set the upper-leftmost cell to be 0.
+\\ \\
+$L6-L7$: Build the array from top to bottom, left to right. The index $lvl$ refers to each time-step up to the last possible time-step ($n+1$). The index $w$ refers to the total calculated wait time.
+\\ \\
+$L10-L13$: The "left child" which considers what is already in the cell with what we would like to bring down. This is the case were we do not broadcast at this level. Note: if min chose the second parameter as the minimum, we must create a new "last broadcast" variable which stores the information that we had, essentially, not broadcast on this level but some level prior.
+\\ \\
+$L17$: Enforce pruning rule number 1.
+\\ \\
+$L18$: We must compute the next index for the right child by adding the wait times for every user beyond the last broadcast. 
+\\ \\
+$L19$: Determine the minimum number of broadcasts between what is there and the case where we would broadcast on this level. We add one to indicate that we are broadcasting on this level.
+\\ \\
+$L22-L23$: If min chose the second parameter, we must create a new last broadcast variable which stores the information that we have broadcasted on this level.
+\\ \\ 
+\textbf{Answer:} The answer will be in the last level. It will be the cell with the minimum index $w$ and a value equal to $k$. From here, we can backtrace through our array $A$ and rebuild the solution with help from the last\_broadcast variables.
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}

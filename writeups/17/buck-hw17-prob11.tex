@@ -9,14 +9,6 @@
 %   - Author
 %
 
-\newcommand{\hmwkTitle}{Reduction}
-\newcommand{\hmwkProblems}{14, 15, and 16}
-\newcommand{\hmwkDueDate}{Tuesday October 14, 2014}
-\newcommand{\ClassName}{Algorithm Design}
-\newcommand{\ClassNumber}{CS 1510}
-\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
-
-
 
 %
 % Basic Document Settings
@@ -37,6 +29,9 @@
 \usetikzlibrary{automata,positioning}
 
 
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
 \topmargin=-0.45in
 \evensidemargin=0in
 \oddsidemargin=0in
@@ -85,9 +80,6 @@
 %
 
 \pagestyle{fancy}
-\lhead{\ClassNumber\ - \ClassName}
-\chead{\hmwkTitle}
-\rhead{Problems \hmwkProblems}
 \lfoot{\lastxmark}
 \cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
 
@@ -121,6 +113,33 @@
 % 	% 	% 	% 	% 	% 	%
 
 \begin{document}
-\maketitle
 \pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 11}}
+\leavevmode
+(2 points) Consider the 2Clique problem:
+Show that this problem is NP-hard. Use the fact that the clique problem is NP-complete. The input
+to the clique problem is an undirected graph H and an integer j. The output should be 1 if H contains
+a clique of size j and 0 otherwise. Note that a clique is a mutually adjacent collection of vertices. Two
+cliques are disjoint if they do not share any vertices in common.
+\\ \\
+\textbf{Input:} A undirected graph G and an integer k.
+\\ \\ \textbf{Output:} 1 if G has two vertex disjoint cliques of size k, and 0 otherwise.
+\\ \\ \textbf{Theorem:} 2Clique is NP-Hard
+\\ \\ \centerline{\textbf{Clique $\leq$ 2Clique}}
+\\ \\
+Program Clique( H, j ):
+\begin{algorithmic}[1]
+\State G = H duplicated with prime vertices 
+\State k = j
+\State return 2Clique( G, k )
+\end{algorithmic}
+\leavevmode
+\\ \\ This shows that 2Clique is NP-Hard by using the Clique problem which is NP-complete.
+\\ \\
+G is basically two unconnected graphs: H and H'. H' consists of all the vertices of H, with changed vertex names. Here is an example:
+\end{homeworkProblem}
+\pagebreak
+
 \end{document}

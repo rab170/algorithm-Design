@@ -9,14 +9,6 @@
 %   - Author
 %
 
-\newcommand{\hmwkTitle}{Reduction}
-\newcommand{\hmwkProblems}{14, 15, and 16}
-\newcommand{\hmwkDueDate}{Tuesday October 14, 2014}
-\newcommand{\ClassName}{Algorithm Design}
-\newcommand{\ClassNumber}{CS 1510}
-\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
-
-
 
 %
 % Basic Document Settings
@@ -37,6 +29,9 @@
 \usetikzlibrary{automata,positioning}
 
 
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
 \topmargin=-0.45in
 \evensidemargin=0in
 \oddsidemargin=0in
@@ -85,9 +80,6 @@
 %
 
 \pagestyle{fancy}
-\lhead{\ClassNumber\ - \ClassName}
-\chead{\hmwkTitle}
-\rhead{Problems \hmwkProblems}
 \lfoot{\lastxmark}
 \cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
 
@@ -121,6 +113,43 @@
 % 	% 	% 	% 	% 	% 	%
 
 \begin{document}
-\maketitle
 \pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 10}}
+\leavevmode
+(2 points) Show that the Vertex Cover Problem is self-reducible. The decision problem is to take a
+graph G and an integer k and decide if G has a vertex cover of size k or not. The optimization problem
+takes a graph G, and returns a smallest vertex cover in G. So you must show that if the decision
+problem has a polynomial time algorithm then the optimization problem also has a polynomial time algorithm. Recall that a vertex cover is a collection S of vertices with the property that every edge is
+incident to a vertex in S.
+\\ \\
+\textbf{Input:} graph G
+\\ \\ \textbf{Output:} the smallest Vertex Cover in G
+\\ \\ \textbf{Theorem:} VC is self reducible 
+\\ \\ \centerline{\textbf{optimization problem OPT $\leq$ decision problem DEC}}
+\\ \\
+Program OPT( G ):
+\begin{algorithmic}[1]
+\For{k = 1 to number of nodes in G}
+	\If{ DEC( G, k ) }
+		\State BREAK
+	\EndIf
+\EndFor
+\\
+\For{each node $x$}
+	\State G' = G with x removed
+	\If{ DEC( G', k-1 ) }
+		\State result += x
+		\State G = G'
+		\State k = k - 1
+	\EndIf
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\ This algorithm shows that if the decision problem has a polynomial time algorithm then the optimization problem does as well.
+\\ \\This algorithm first finds the minimum size of the smallest Vertex Cover in G. Then it considers if each node $x$ should be in the resulting solution. It does this by removing x and checking if there is a VC of size k-1. If there is, we can safely add this node to the solution set. 
+\end{homeworkProblem}
+\pagebreak
+
 \end{document}

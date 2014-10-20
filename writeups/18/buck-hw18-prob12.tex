@@ -1,0 +1,265 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 12}}
+\leavevmode
+\\  (8 points) For each of the following problems, either prove that it is NP-hard by reduction (from
+either the standard clique problem, or from the standard independent set problem, or from one of the
+previous subproblems), or give a polynomial time algorithm. Some of the reductions will be trivial,
+and its ok to dispose of these problems with a sentence or two explaining why the reduction is easy.
+\\
+\\ \centerline{(a)}
+The input is an undirected graph G. Let n be the number of vertices in G. The problem is to
+determine if G contains a clique of size 3n/4. Recall that a clique is a collection of mutually
+adjacent vertices.
+\\
+\\
+\textbf{Input:} Undirected graph G. (Let n = number of vertices in G)
+\\ \textbf{Output:} 1 if G has a clique of size 3n/4
+\\ \textbf{Theorem:} 3n4Clique is NP-Hard
+\\ \\ \centerline{\textbf{Clique $\leq$ 3n4Clique}}
+\\
+\\Program Clique( H, k ):
+\begin{algorithmic}[1]
+\State integer n\_needed = ceiling( (4 * k) / 3 )
+\State integer n\_H = number of vertices in H
+\\
+\If{n\_needed == n\_H}
+	\State G = H
+	\\
+\ElsIf{n\_needed \textgreater\ n\_H}
+	\State G = H with (n\_needed -- n\_H) additional, edgeless nodes
+	\\
+\ElsIf{n\_needed \textless\ n\_H}
+	\State G = H with (n\_H -- n\_needed) nodes removed according to \textbf{constraints*}
+	\\
+\EndIf
+\State \textbf{return} 3n4Clique(G)
+\end{algorithmic}
+\leavevmode
+\\
+Line 1: We need to determine the number of nodes needed for G so we can consider if the input graph H has the proper number of nodes. We do this by solving (k = 3n/4) for $n$. If this returns a fraction of a node, obviously we would need an additional node (so we use ceiling in this case).
+\\ \\
+Line 4-5: If H has the proper number of nodes, just pass it in.
+\\ \\
+Line 7-8: If H has too few nodes, we can easily add additional "floating" (edgeless) nodes. This changes the size $n$ for the graph G without creating or destroying any cliques.
+\\ \\
+Line 10-11: If H has too many nodes, we must remove some one at a time. The \textbf{*constraints} are that we can safely remove any node that has less than k-1 connections (as these nodes cannot be mutually adjacent to k-1 other nodes). If all nodes have greater-than-or-equal-to k connections, then we can remove the one with the fewest connections (break ties arbitrarily). If they all have an equal number of connections then we can remove any one arbitrarily. This will give us a graph which has only destroyed a clique if another clique of size k existed.
+\\ \\ \centerline{(b)}
+The input is an undirected graph G. Let n be the number of vertices in G. The problem is to
+determine if G contains an independent set of size 3n/4. Recall that an independent set is a
+collection of mutually nonadjacent vertices.
+\\
+\\
+\textbf{Input:} Undirected graph G. (Let n = number of vertices in G)
+\\ \textbf{Output:} 1 if G has an independent set of size 3n/4
+\\ \textbf{Theorem:} 3n4IS is NP-Hard
+\\ \\ \centerline{\textbf{IS $\leq$ 3n4IS}}
+\\
+\\Program IS( H, k ):
+\begin{algorithmic}[1]
+\State integer n\_needed = ceiling( (4 * k) / 3 )
+\State integer n\_H = number of vertices in H
+\\
+\If{n\_needed == n\_H}
+	\State G = H
+	\\
+\ElsIf{n\_needed \textgreater\ n\_H}
+	\State G = H with (n\_needed -- n\_H) additional nodes connected to all other nodes (and each other) 
+	\\
+\ElsIf{n\_needed \textless\ n\_H}
+	\State G = H with (n\_H -- n\_needed) nodes removed according to \textbf{constraints*}
+	\\
+\EndIf
+\State \textbf{return} 3n4IS(G)
+\end{algorithmic}
+\leavevmode
+\\
+Most of this algorithm is very similar to part (a) so I will not explain the motivations again. The key difference is that when we add additional nodes we must add the proper amount and then connect each of the new nodes to every single node (this will include each other). The new \textbf{*constraints} are that we will remove the most connected node first, breaking ties arbitrarily. 
+\\ \\
+\pagebreak
+\\ \\ \centerline{(c)}
+ The input is an undirected graph G and an integer k. The problem is to determine if G contains
+a clique of size k AND an independent set of size k.
+\\
+\\
+\textbf{Input:} Undirected graph G and integer k
+\\ \textbf{Output:} 1 if G has a clique of size k AND an independent set of size k
+\\ \textbf{Theorem:} CandIS is NP-Hard
+\\ \\ \centerline{\textbf{Clique $\leq$ CandIS}}
+\\
+\\Program Clique( H, j ):
+\begin{algorithmic}[1]
+\State G = H with j edgeless (completely unconnected) nodes added
+\State k = j
+\State \textbf{return} CandIS(G, k)
+\end{algorithmic}
+\leavevmode
+\\
+Essentially we want the IS part of the boolean expression "Clique AND IS" to be a tautology. We can ensure this by adding in an independent set of size j to any graph H. This way, we will be testing only for cliques in the CandIS program.
+\\ \\
+\\ \\ \centerline{(d)}
+The input is an undirected graph G and an integer k. The problem is to determine if G contains
+a clique of size k OR an independent set of size k.
+\\
+\\
+\textbf{Input:} Undirected graph G and integer k
+\\ \textbf{Output:} 1 if G has a clique of size k OR an independent set of size k
+\\ \textbf{Theorem:} CorIS is NP-Hard
+\\
+\\ Not completed
+\pagebreak
+\\ \\ \centerline{(e)}
+The input is an undirected graph G. Let n be the number of vertices in G. The problem is to
+determine if G contains a clique of size 3n/4 AND an independent set of size 3n/4.
+\\
+\\
+\textbf{Input:} Undirected graph G. (Let n be the number of vertices in G)
+\\ \textbf{Output:} 1 if G has a clique AND an independent set of size 3n/4
+\\ \textbf{Theorem:} 3n4CandIS is NP-Hard
+\\ \\ \centerline{\textbf{Clique $\leq$ 3n4CandIS}}
+\\
+\\Program Clique( H, j ):
+\begin{algorithmic}[1]
+\State integer n\_needed = ceiling( (4 * j) / 3 )
+\State integer n\_H = number of vertices in H
+\\
+\If{n\_needed == n\_H + j}
+	\State G = H with j edgeless (completely unconnected) nodes added
+\EndIf
+\\
+\State \textbf{return} CandIS(G)
+\end{algorithmic}
+\leavevmode
+\\
+Unfortunately, there is only one case which we can account for. This is when we can add a complete Independent Set of $j$ nodes to the graph. This will ensure that the IS portion of "Clique AND IS" is a tautology. Given the other cases, however, we are unsure of how to handle them.
+\\ \\
+\\ \\ \centerline{(f)}
+ The input is an undirected graph G. Let n be the number of vertices in G. The problem is to
+determine if G contains a clique of size 3n/4 OR an independent set of size 3n/4.
+\\
+\\
+\textbf{Input:} Undirected graph G. (Let n be the number of vertices in G)
+\\ \textbf{Output:} 1 if G has a clique OR an independent set of size 3n/4
+\\ \textbf{Theorem:} 3n4CorIS is NP-Hard
+\\
+\\ Not completed
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}

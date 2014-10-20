@@ -9,14 +9,6 @@
 %   - Author
 %
 
-\newcommand{\hmwkTitle}{Reduction}
-\newcommand{\hmwkProblems}{14, 15, and 16}
-\newcommand{\hmwkDueDate}{Tuesday October 14, 2014}
-\newcommand{\ClassName}{Algorithm Design}
-\newcommand{\ClassNumber}{CS 1510}
-\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
-
-
 
 %
 % Basic Document Settings
@@ -85,9 +77,6 @@
 %
 
 \pagestyle{fancy}
-\lhead{\ClassNumber\ - \ClassName}
-\chead{\hmwkTitle}
-\rhead{Problems \hmwkProblems}
 \lfoot{\lastxmark}
 \cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
 
@@ -121,6 +110,47 @@
 % 	% 	% 	% 	% 	% 	%
 
 \begin{document}
-\maketitle
 \pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 19 b/c}}
+\leavevmode
+\\ \textbf{Algorithm:} The "Max Aggregate Cost" algorithm MAC is described below.
+\\ \\ \textbf{Pruning Rules:} 
+\\1) If the length of the string at any given node is greater than $k$, prune that node.
+\\ \\2) If the length of the string at any given node equals $k$ but the string does not match $P$, prune that node.
+\\ \\3) If the string is out of order at any given node, prune that node. (That is, if the first character of the node does not match the first character of P, then no descendants of this node will have the solution -- and so on)
+\\ \\4) If two nodes at the same level have the same length (and all of the above 3 conditions are met), keep the node with the maximum aggregate cost. 
+\\
+\begin{algorithmic}[1]
+\For{j = 1 to n}
+\If{T[ j ] == P[ 1 ]}
+	\State MAC[ j ][ 1 ] = $C_{j}$
+\EndIf
+\EndFor
+\\
+\For{lvl = 1 to n}
+	\For{L = 1 to k}
+		\If{MAC[ lvl - 1][ L ] is defined}
+			\State //left-child
+			\State MAC[ lvl ][ L ] =
+			\State max( MAC[ lvl ][ L ], MAC[ lvl - 1 ][ L ] )
+			\\
+			\If{L + 1 is in bounds and T[ lvl ] == P[ L ]}
+				\State //right-child
+				\State MAC[ lvl ][ L + 1 ] =
+				\State max( MAC[ lvl ][ L + 1 ], MAC[ lvl -1 ][ L ] + $C_{lvl}$ ) 
+			\EndIf
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\leavevmode
+\\ \\
+This algorithm will build a table in which we can store the values of the subsequences. At first, we initialize the array's first column with the values of each $C_j$ if the corresponding letter in $T$ is the same as the first letter in $P$. Then we iterate through and build the next level of the array. For the left child, we are checking against the node above it and the "champ" that is already at that cell. For the right child, we check against the value that is currently there and the value diagonally to the upper-left (added to the value at that level). Along the way, we make a few checks in order to adhere to our pruning rules.  
+\\ \\
+At the end of the day, our solution will be the maximum value of length $k$. This should be in the lower-right corner. From here we can backtrace to find our solution.
+\end{homeworkProblem}
+\pagebreak
+
 \end{document}

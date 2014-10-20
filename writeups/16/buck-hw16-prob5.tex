@@ -1,0 +1,183 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 5}}
+\leavevmode
+\\
+\centerline{\textit{Show that if one of the following three problems has a polynomial time algorithm then they all do.}}
+\\ \\
+\textbf{CIRCUIT:} The problem is to determine whether a Boolean Circuit (with gates NOT, binary AND, and binary OR) has some input that causes all of the output lines to be 1. Assume that the fan-out (the number of gates that the output of a single gate can be fed into) of the gates in a circuit may be arbitrary.
+\\ \\ \textbf{FANIN:} The problem is to determine whether a Boolean Circuit (with gates NOT, arbitrary fan-in AND, and arbitrary fan-in OR), has some input that causes all of the output lines to be 1. Assume that the fan-out (the number of gates that the output of a single gate can be fed into) of the gates in a circuit may be arbitrary.
+\\ \\ \textbf{FORMULA:} Determine whether a Boolean formula, with NOT, binary AND, and binary OR operations, is satisfiable.
+\\ \\ 
+\\ \\
+\\
+\centerline{\textbf{FANIN $\leq$ CIRCUIT}}
+\textbf{Program FANIN(fanin F)} 
+\begin{algorithmic}
+\State circuit C = F converted to a circuit (according to $\textbf{Transform 1}$)
+\\ \Return CIRCUIT(C)
+\end{algorithmic}
+\leavevmode
+\\ \\ \\
+\centerline{\textbf{FORMULA $\leq$ FANIN}}
+\textbf{Program FORMULA(formula S)} 
+\begin{algorithmic}
+\State fanin F = S converted to a fanin (according to $\textbf{Transform 2}$)
+\\ \Return FANIN(F)
+\end{algorithmic}
+\leavevmode
+\\ \\ \\
+\centerline{\textbf{CIRCUIT $\leq$ FORMULA}}
+\textbf{Program CIRCUIT(circuit C)} 
+\begin{algorithmic}
+\State formula S = C converted to a formula (according to $\textbf{Transform 3}$)
+\\ \Return FORMULA(S)
+\end{algorithmic}
+\leavevmode
+\\ \\ \\ \\
+Thus, since all three problems can be reduced to each other: if one has a polynomial time algorithm, then they all do. 
+\\ \\ \\
+\centerline{\textit{Transforms are detailed on the following page.}}
+\pagebreak
+\\ \centerline{\textbf{Transform 1 (fanin to circuit)}}
+The goal is to produce a circuit which has maximum fan-in's of 2 for each AND / OR gate. This can easily be accomplished by:
+\\ 1) Find any gate where number $N$ of inputs $I$ is greater than 2
+\\ 2) Remove this gate and create $N-1$ gates $G$ of the same type
+\\ 3) Send the first two inputs $I_1$ and $I_2$ into the first newly created gate ($G_1$)
+\\ 4) Send the output of $G_1$ into another newly created gate $G_2$ with the third input $I_3$
+\\ 5) Continue in this way for all inputs and then for all gates
+\\ $Example:$
+\\ \\ \\ \\ \\ \\ \\ \\ \\ 
+\\ \centerline{\textbf{Transform 2 (formula to fanin)}}
+The goal is to produce a fanin from a formula. This can easily be accomplished by:
+\\ 1) Parenthesize every term according to the precedence 1: NOT, 2: AND, 3: OR (if terms have the same precedence, group them together)
+\\ 2) Start with the inner-most parens and map to a circuit with arbitrary fan-in's for AND / OR gates
+\\ 3) Continue this way until everything is mapped to the fanin
+\\ $Example:$
+\\ \\ \\ \\ \\ \\ \\ \\ \\
+\\ \centerline{\textbf{Transform 3 (circuit to formula)}}
+The goal is to produce a formula from a circuit. This can be easily accomplished by:
+\\ 1) Starting with earliest gates first, label each output line in a parenthetical way
+\\ 2) Continue through for all gates
+\\ 3) If the circuit as a whole has multiple fan-outs, simply run them all through AND gates (2 at a time as to not violate the circuit fan-in rule)
+\\ $Example:$
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}

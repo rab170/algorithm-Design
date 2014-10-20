@@ -9,14 +9,6 @@
 %   - Author
 %
 
-\newcommand{\hmwkTitle}{Reduction}
-\newcommand{\hmwkProblems}{14, 15, and 16}
-\newcommand{\hmwkDueDate}{Tuesday October 14, 2014}
-\newcommand{\ClassName}{Algorithm Design}
-\newcommand{\ClassNumber}{CS 1510}
-\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
-
-
 
 %
 % Basic Document Settings
@@ -37,6 +29,9 @@
 \usetikzlibrary{automata,positioning}
 
 
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
 \topmargin=-0.45in
 \evensidemargin=0in
 \oddsidemargin=0in
@@ -85,9 +80,6 @@
 %
 
 \pagestyle{fancy}
-\lhead{\ClassNumber\ - \ClassName}
-\chead{\hmwkTitle}
-\rhead{Problems \hmwkProblems}
 \lfoot{\lastxmark}
 \cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
 
@@ -121,6 +113,20 @@
 % 	% 	% 	% 	% 	% 	%
 
 \begin{document}
-\maketitle
 \pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 26}}
+\leavevmode
+\\
+\textbf{Input:} A two-dimensional array $R$ of non-negative integers and an integer $k$. The value $R_{t,\ p}$ gives the number of users requesting page $p$ at time $t$. The server can broadcast at most $k$ times.
+\\ \\ \textbf{Output:} Pick the $k$ times to broadcast, and the pages to broadcast at those $k$ times, in order to minimize the total time (over all requests) that requests/users have to wait in order to have their requests satisfied.
+\\ \\ \textbf{The Tree:} The tree for this problem will go down level by level based on if pages should broadcast at time $level$. For two pages, $A$ and $B$, we will create a new leaf for A, B, both A and B, and neither A nor B. For three pages, $A$ and $B$ and $C$, we will create a new leaf for A, B, C, A and B, A and C, B and C, all A B and C, and none A B nor C. Thus, for two pages, each node will have a branching factor of 4 -- and for three pages, each node will have a branching factor of 8. We can extend this to say that for $x$ number of pages, the branching factor is $2^x$.
+\\ \\ \textbf{Pruning Rules:} 
+\\ 1) If (at any node) the total number of broadcasts across all pages is greater than $k$, prune that node.
+\\ 2) If total wait time is the same at any two nodes in the same level, keep the node with the fewer total broadcasts across all pages.
+\\ \\ \textbf{Algorithm:} We did not develop a solution to this problem.
+\end{homeworkProblem}
+\pagebreak
+
 \end{document}
