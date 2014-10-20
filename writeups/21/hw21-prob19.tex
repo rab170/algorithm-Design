@@ -9,14 +9,6 @@
 %   - Author
 %
 
-\newcommand{\hmwkTitle}{Reduction}
-\newcommand{\hmwkProblems}{19 and 21}
-\newcommand{\hmwkDueDate}{Monday October 19, 2014}
-\newcommand{\ClassName}{Algorithm Design}
-\newcommand{\ClassNumber}{CS 1510}
-\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
-
-
 
 %
 % Basic Document Settings
@@ -37,6 +29,9 @@
 \usetikzlibrary{automata,positioning}
 
 
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
 \topmargin=-0.45in
 \evensidemargin=0in
 \oddsidemargin=0in
@@ -85,9 +80,6 @@
 %
 
 \pagestyle{fancy}
-\lhead{\ClassNumber\ - \ClassName}
-\chead{\hmwkTitle}
-\rhead{Problems \hmwkProblems}
 \lfoot{\lastxmark}
 \cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
 
@@ -121,6 +113,28 @@
 % 	% 	% 	% 	% 	% 	%
 
 \begin{document}
-\maketitle
 \pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 19}}
+\leavevmode
+(6 points) In the disjoint paths problem the input is a directed graph G and pairs ($s_1$, $t_1$), ...,($s_k$, $t_k$) of vertices. The problem is to determine if there exist a collection of vertex disjoint paths between the pairs of vertices (from each $s_i$ to each $t_i$). Show that this problem is NP-hard by a reduction from the 3SAT problem.
+\\ \\
+\textbf{Input:} Directed graph G / Vertex pairs ($s_1$, $t_1$), ...,($s_k$, $t_k$)
+\\ \\ \textbf{Output:} 1 if there is a collection of vertex disjoint paths between the inputted vertex pairs, 0 otherwise
+\\ \\ \textbf{Theorem:} Problem Vertex Disjoint Paths (VDP) is NP-Hard
+\\ \\ \centerline{\textbf{3SAT $\leq$ VDP}}
+\\
+\\Program 3SAT ( formal F ):
+\begin{algorithmic}[1]
+\State G = a graph constructed of each vertex pair and "gadgets" for each clause in F
+\State Vertex Pairs ($s_1$, $t_1$), ...,($s_k$, $t_k$) = a pair of vertices for each variable in the formula F
+\State \textbf{return} VDP( G, vertex pairs )
+\end{algorithmic}
+\leavevmode
+\\ \\
+We did not complete this problem, however here is an example of what we were thinking in terms of the setup: 
+\end{homeworkProblem}
+\pagebreak
+
 \end{document}
