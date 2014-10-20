@@ -9,14 +9,6 @@
 %   - Author
 %
 
-\newcommand{\hmwkTitle}{Reduction}
-\newcommand{\hmwkProblems}{14, 15, and 16}
-\newcommand{\hmwkDueDate}{Tuesday October 14, 2014}
-\newcommand{\ClassName}{Algorithm Design}
-\newcommand{\ClassNumber}{CS 1510}
-\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
-
-
 
 %
 % Basic Document Settings
@@ -37,6 +29,9 @@
 \usetikzlibrary{automata,positioning}
 
 
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
 \topmargin=-0.45in
 \evensidemargin=0in
 \oddsidemargin=0in
@@ -85,9 +80,6 @@
 %
 
 \pagestyle{fancy}
-\lhead{\ClassNumber\ - \ClassName}
-\chead{\hmwkTitle}
-\rhead{Problems \hmwkProblems}
 \lfoot{\lastxmark}
 \cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
 
@@ -121,6 +113,36 @@
 % 	% 	% 	% 	% 	% 	%
 
 \begin{document}
-\maketitle
 \pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem TODO}}
+\leavevmode
+\\
+(4 points) We consider the following medical testing problem. The input consists of:
+\\ \\ A set $A$ of possible diseases
+\\ \\ A collection $T_1$, ... , $T_k$ of medical tests with binary outcomes. Each medical test is a function
+from A to \{0, 1\}. If test $T_i$ is applied to someone with a disease a$\in$A, then the medical test
+returns the outcome $T_i$(a), which is either 0 or 1. Think of test as being able to distinguish
+between a diseases a and b where the tests outcomes are different.
+\\ \\ Integer k
+The Dr. Cuddy problem is to determine whether there is a collection S of k tests, such that for all
+diseases a and b, there is a test in S that can distinguish between a and b. Show that the Dr. Cuddy
+problem is NP-hard by reduction from the triangle problem defined in the previous problem.
+\\ \\
+\\ \\ \textbf{Theorem:} Problem medical test (MT) is NP-Hard
+\\ \\ \centerline{\textbf{Triangle $\leq$ MT}}
+\\
+\\Program Triangle ( subset W ):
+\begin{algorithmic}[1]
+\State A =
+\State $T_1$ ... $T_k$ =
+\State k =
+\State \textbf{return} MT( A, $T_1$...$T_k$, k )
+\end{algorithmic}
+\leavevmode
+\\ \\
+\end{homeworkProblem}
+\pagebreak
+
 \end{document}

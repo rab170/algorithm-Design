@@ -1,0 +1,167 @@
+ 
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+
+%
+% Basic Document Settings
+%
+
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amssymb}
+
+\usetikzlibrary{automata,positioning}
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in\newcommand{\hmwkClassTime}{Section A}
+\linespread{1.1}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}{
+    \section{ }
+    %\setcounter{partCounter}{1}
+    %\enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+
+
+% 
+% Header and Footer definition
+%
+
+\pagestyle{fancy}
+\lfoot{\lastxmark}
+\cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
+
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+	\textmd{\textbf{\ClassNumber}} \\
+    \textmd{\textbf{\ClassName}} \\    
+    \normalsize\vspace{0.1in}\small{\hmwkTitle} \\
+    \normalsize\vspace{0.1in}\small{Problems \hmwkProblems} \\
+	\normalsize\vspace{0.1in}\small{Due \hmwkDueDate}    \\
+    \vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+
+
+
+
+
+% 	% 	%	%	%	%	%
+%	Document Start 		%
+% 	% 	% 	% 	% 	% 	%
+
+\begin{document}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 18}}
+\leavevmode
+\\
+(6 points) Consider the following problem. The input is a graph G = (V, E), a subset R of vertices of
+G, and a positive integer k. The problem is to determine if there is a subset U of V such that
+\begin{enumerate}
+\item All the vertices in R are contained in U, and
+\item the number of vertices in U is at most k, and
+\item for every pair of vertices x and y in R, one can walk from x to y in G only traversing vertices that
+are in U.
+\end{enumerate}
+\leavevmode
+Show that this problem is NP-hard using a reduction from Vertex Cover
+\\ \\
+\textbf{Algorithm A Input:} Graph G, subset vertices R, positive integer k
+\\ \\ \textbf{Algorithm A Output:} 1 if subset U can be created following the constraints above, 0 otherwise.
+\\ \\ \textbf{Theorem:} Algorithm A is NP-hard.
+\\ \\ \centerline{\textbf{VertexCover $\leq$ A}}
+\\
+\\Program VertexCover( H, $l$ ):
+\begin{algorithmic}
+	\State R = Vertex "S" + Vertex "E$_i$" for all edges in H
+	\State G = Every vertex in R + Every vertex in H, connected according to the rules below*
+	\State k = number of vertices in R + $l$
+	\State return A( G, R, k )
+\end{algorithmic}
+\leavevmode
+\\ \\
+Here we want to construct inputs for A which are satisfiable if-and-only-if H and $l$ are satisfiable in VertexCover.
+\\ \\
+We use the hint to construct an R which includes a vertex S (source vertex) and a bunch of vertices \\ E$_1$, E$_2$, ..., E$_x$ for each edge in H.
+\\ \\
+Next we construct a G which is essentially R + H without any edges.
+\\*Then we add edges to G according to the following rules:
+\begin{enumerate}
+\item Add an edge from vertex S to every vertex from H 
+\item Add an edge from every vertex E$_i$ to that edges terminating vertices from H (Example below)
+\end{enumerate}
+\leavevmode
+Example:
+\\ \\ \\ \\ \\ \\ \\ \\
+Finally, k is the number of vertices in R plus the number of vertices we were allowed to include in the VertexCover ($l$). This will ensure that the U that is created can choose every vertex in R plus $l$ many vertices in order to make up a vertex cover. 
+\\ \\ \\ \\
+Here is an example using the above method to construct a valid input for algorithm A. Note that VertexCover will be satisfiable iff algorithm A is satisfiable. 
+\\
+\end{homeworkProblem}
+\pagebreak
+
+\end{document}
