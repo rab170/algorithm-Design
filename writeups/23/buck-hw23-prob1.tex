@@ -9,14 +9,6 @@
 %   - Author
 %
 
-\newcommand{\hmwkTitle}{Parallel Algorithms}
-\newcommand{\hmwkProblems}{2, 3, 4, and 7}
-\newcommand{\hmwkDueDate}{Monday October 27, 2014}
-\newcommand{\ClassName}{Algorithm Design}
-\newcommand{\ClassNumber}{CS 1510}
-\newcommand{\hmwkAuthorName}{Buck Young and Rob Brown}
-
-
 
 %
 % Basic Document Settings
@@ -37,6 +29,9 @@
 \usetikzlibrary{automata,positioning}
 
 
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
 \topmargin=-0.45in
 \evensidemargin=0in
 \oddsidemargin=0in
@@ -85,9 +80,6 @@
 %
 
 \pagestyle{fancy}
-\lhead{\ClassNumber\ - \ClassName}
-\chead{\hmwkTitle}
-\rhead{Problems \hmwkProblems}
 \lfoot{\lastxmark}
 \cfoot{$_{Buck}$ $_{Young}$ $_{and}$ $_{Rob}$ $_{Brown}$}
 
@@ -121,6 +113,49 @@
 % 	% 	% 	% 	% 	% 	%
 
 \begin{document}
-\maketitle
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 1 - part 1}}
+\leavevmode
+(2 Points) Consider the problem of computing the AND of n bits.
+\\ \\
+\textbf{Input:} n bits
+\\ \textbf{Output:} The AND of the bits
+\\ \\ \centerline{\textbf{Give an algorithm that runs in time O(log n) using n processors on an EREW PRAM.}}
+\\
+\\Program AND( $b_1$...$b_n$, p ):
+\begin{algorithmic}[1]
+\State return AND( $b_1$...$b_{n/2}$, p/2 ) $\wedge$ AND( $b_{(n/2) + 1}$...$b_n$, p/2 )
+\end{algorithmic}
+\leavevmode
+\\ \\ \\ \\ \\ \\ \\ \\
+\\ \\ \centerline{\textbf{What is the efficiency of this algorithm?}}
+\\ \\ \\ \\ \\ \\ \\ \\
+\\ \\ \centerline{\textbf{Using the folding principle, what upper bound would you get for this algorithm on $n^{1/3}$ processors?}}
+\end{homeworkProblem}
+\pagebreak
+
+\begin{homeworkProblem}
+\centerline{\textbf{Problem 1 - part 2}}
+\leavevmode
+\\ Incomplete
+\\\\
+\centerline{\textbf{Problem 1 - part 3}}
+\leavevmode
+\\ \\ \centerline{\textbf{Give an algorithm that runs in time O(1) using n processors on a CRCW Common PRAM.}}
+\\
+\\ Algorithm for processor $P_i$:
+\begin{algorithmic}[1]
+\If{$b_i$ = 1}
+	\State ANSWER = 1
+\EndIf
+\end{algorithmic}
+\leavevmode
+\\ \\ \\ \\ \\ \\ \\ \\
+\\ \\ \centerline{\textbf{What is the efficiency of this algorithm?}}
+\\ \\ \\ \\ \\ \\ \\ \\
+\\ \\ \centerline{\textbf{Using the folding principle, what upper bound would you get for this algorithm on $n^{2/3}$ processors?}}
+\end{homeworkProblem}
 \pagebreak
 \end{document}
