@@ -116,21 +116,16 @@
 \pagebreak
 
 \begin{homeworkProblem}
-\centerline{\textbf{Problem TODO}}
+\centerline{\textbf{Problem 2}}
 \leavevmode
-(TODO points) TODO
-\\ \\
-\textbf{Input:} 
-\\ \\ \textbf{Output:}
-\\ \\ \textbf{Theorem:} 
-\\ \\ \centerline{\textbf{TODO $\leq$ TODO}}
-\\
-\\Program TODO( TODO ):
-\begin{algorithmic}[1]
-\State TODO
-\end{algorithmic}
-\leavevmode
-\\ \\
+( 2 points) You know that lots of famous computer scientists have tried to find a fast efficient parallel
+algorithm for the following Boolean Formula Value Problem:
+\\INPUT: A Boolean formula F and a truth assignment A of the variables in F. 
+\\OUTPUT: 1 if A makes F true, and 0 otherwise.
+\\ \\Moreover, most computer scientists believe that there is no fast efficient parallel algorithm for the Boolean Value Problem. You want to find a fast efficient parallel algorithm for some new problem N. After much effort you can not find a fast efficient parallel algorithm for N, nor a proof that N does not have a fast efficient parallel algorithm. How could you give evidence that finding a fast efficient parallel algorithm for N is at least a hard of a problem as finding a fast efficient parallel algorithm for Boolean Formula Value problem? Be as specific as possible, and explain how convincing the evidence is.
+\\Note that "fast and efficient" means poly-log time with a polynomial number of processors. The term "poly-log" means bounded by O(log$^k$ n) for some constant k.
+\\ \\ \\ \\
+The best way to prove this would be to reduce the Boolean Formula Value Problem (BFVP) into our new problem N using poly-log (or less) time complexity. We could do the reduction by mapping the input of BFVP to the input for N and then running the algorithm N and translating the output. Therefore, if our new problem N had a fast and efficient parallel algorithm then so too would BFVP. Yet since BFVP does not have a fast and efficient parallel algorithm (as one has not been discovered by the greats), N must not either. 
 \end{homeworkProblem}
 \pagebreak
 
